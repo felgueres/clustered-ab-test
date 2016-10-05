@@ -41,8 +41,6 @@ class SmartMeter(object):
         self.df.ts = self.df.ts.apply(date_decoder)
         # Calculate day based on starting date reference.
         self.df.ts = self.df.ts + self.startdate
-        # Transform to DatetimeIndex object for manipulation capabilities.
-        # self.df.ts = pd.DatetimeIndex(self.df.ts)
         # Sort values by ID and ts since there an uncontinous instances.
         self.df.sort_values(by = ['ID','ts'], inplace = True)
         #Pivot table where ID are columns and consumption is values.
