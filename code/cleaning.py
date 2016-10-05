@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 class SmartMeter(object):
     '''
-    Cleaner function to create working dataset.
+    Cleaner class to create working dataset.
 
     '''
 
