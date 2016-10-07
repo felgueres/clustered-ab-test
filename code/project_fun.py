@@ -21,14 +21,6 @@ def load_data(picklepath='../data/working_data.pickle', start_date = datetime(20
 
     return df
 
-def plotter_distribution(df):
-    '''
-    Computes general statistics for the dataset, returns an aggregated dataset.
-    Aggregated
-    '''
-
-    pass
-
 def sequential_aggregator(df, frequency = '1h'):
     '''
     Computes stats by frequency interval and user defined aggregating functions.
@@ -84,7 +76,6 @@ def cluster_plotter(X_standardized, k=5):
     Plot combination of cluster plots.
     INPUT: Features matrix (np array)
     OUTPUT: matplotlib object
-
     '''
 
     SSE_varying_k = []
@@ -103,25 +94,6 @@ def cluster_plotter(X_standardized, k=5):
 
 if __name__ == '__main__':
     pass
-    # '''
-    # Create feature matrix.
-    # '''
-    # #CREATE FEATURE MATRIX
-    #
+
     # #First cluster is based on the mean of 2 hour aggregation.
     # df_sum = df_aggr.loc[:,(slice(None),'sum')]
-    #
-    # #Compute the mean for same interval range during the year.
-    # df_means = df_sum.groupby([df_sum.index.hour]).sum()
-    #
-    # #Transform feature matrix, users be rows, features be columns.
-    # X = df_means.T.values
-    #
-
-    #
-    # '''
-    # Plots
-    # '''
-    # # elbows(X_standardized)
-    #
-    # cluster_plotter(X_standardized)
