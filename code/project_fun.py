@@ -7,21 +7,29 @@ from sklearn.preprocessing import normalize
 from sklearn.preprocessing import StandardScaler
 from datetime import datetime, timedelta
 
+
+def load_data(picklepath='../data/working_data.pickle', start_date = datetime(2010,1,1), end_date = datetime(2010,12,31,23,59)):
+    '''
+    Loads data from pickle at given timespan.
+    '''
+
+    df = pickle.load(open(picklepath))
+    # Set analyzed timeperiod
+    df = df[start_date:end_date]
+    #Remove IDs if nulls.
+    df.dropna(axis = 1, how = 'any', inplace = True)
+
+    return df
+
 def plotter_distribution(df):
     '''
-    Computes distribution at specified timeframe.
-
-    INPUT: Dataframe
-    OUTPUT: matplotlib object
+    Computes general statistics for the dataset, returns an aggregated dataset.
+    Aggregated
     '''
 
-    fig = plt.figure()
-    ax = fig.add_subplot(1,1,1)
+    pass
 
-    for user in df.ID.unique().tolist():
-        ax.plot(df.ix[df.ID == user].ts, df.ix[df.ID == user].consumption)
-
-def aggregator(df, frequency = '1D'):
+def sequential_aggregator(df, frequency = '1h'):
     '''
     Computes stats by frequency interval and user defined aggregating functions.
 
@@ -30,54 +38,90 @@ def aggregator(df, frequency = '1D'):
 
     '''
     # aggregators = [np.sum, np.mean, np.std]
-    aggregators = [np.mean]
+    aggregators = [np.sum]
     return df.groupby([pd.Grouper(freq=frequency)]).agg(aggregators)
 
-# def seasonalfeature(df):
-#     seasons = {1: 'winter', 2:'spring', 3:'summer', 4:'autumn'}
-#     pass
-#
+def timespan(df):
+    '''
+    Apply function to group across during a given timespan, returns a DataFrame.
+    Ex. 7-9am for all year for specific group.
+    '''
+
+    return df.groupby([df.index.hour]).mean()
+
+
+def seasonal_feature(df):
+    seasons = {1: 'winter', 2:'spring', 3:'summer', 4:'autumn'}
+    pass
+
+
+def elbows(X_standardized):
+    '''
+    Calculate distances to centroids as score, returns plot score vs. # clusters.
+    INPUT: X standardized (numpy array)
+    OUTPUT: matplotlib object
+    '''
+
+    SSE_varying_k = []
+    k_list = range(1,10)
+
+    for k in k_list:
+
+        kmeans = KMeans(n_clusters=k)
+        kmeans.fit(X_standardized)
+        SSE_varying_k.append(abs(kmeans.score(X_standardized)))
+
+    fig = plt.figure(figsize=(10,4))
+    ax = fig.add_subplot(1,1,1)
+    ax.plot(k_list, SSE_varying_k)
+    ax.set_xlabel('Varying k')
+    ax.set_ylabel('Score')
+
+    plt.show()
+
+def cluster_plotter(X_standardized, k=5):
+    '''
+    Plot combination of cluster plots.
+    INPUT: Features matrix (np array)
+    OUTPUT: matplotlib object
+
+    '''
+
+    SSE_varying_k = []
+    k_list = range(1,k)
+    fig = plt.figure(figsize=(14,10))
+
+    for k in k_list:
+
+        kmeans = KMeans(n_clusters=k)
+        y_pred = kmeans.fit_predict(X_standardized)
+
+        ax = fig.add_subplot(1,4,k)
+        ax.scatter(X_standardized[:, 0], X_standardized[:, 1], c=y_pred)
+
+    plt.show()
 
 if __name__ == '__main__':
+    pass
+    # '''
+    # Create feature matrix.
+    # '''
+    # #CREATE FEATURE MATRIX
+    #
+    # #First cluster is based on the mean of 2 hour aggregation.
+    # df_sum = df_aggr.loc[:,(slice(None),'sum')]
+    #
+    # #Compute the mean for same interval range during the year.
+    # df_means = df_sum.groupby([df_sum.index.hour]).sum()
+    #
+    # #Transform feature matrix, users be rows, features be columns.
+    # X = df_means.T.values
+    #
 
-    df = pickle.load(open('../data/working_data.pickle'))
-
-    # Filter for trial period Jan 2010 - Dec 2010
-    start_date = datetime(2010,1,1)
-    end_date = datetime(2010,12,31,23,59)
-
-    # Set analyzed timeperiod
-    df = df[start_date:end_date]
-
-    #Remove IDs if nulls.
-    df.dropna(axis = 1, how = 'any', inplace = True)
-
-    #Aggregate df
-    df_aggr = aggregator(df, frequency = '6H')
-
-    #CREATE FEATURE MATRIX
-    
-    #First cluster is based on the mean of 2 hour aggregation.
-    df_sum = df_aggr.loc[:,(slice(None),'mean')]
-
-    #Compute the mean for same interval range during the year.
-    df_means = df_sum.groupby([df_sum.index.hour]).mean()
-
-    #Transform feature matrix, users be rows, features be columns.
-    X = df_means.T.values
-
-    #STANDARDIZE FEATUERES
-    scaler = StandardScaler()
-    X_standardized = scaler.fit_transform(X)
-
-    #Initiates kMeans instance
-    kmeans = KMeans(n_clusters = 3)
-    y_pred = kmeans.fit_predict(X_standardized)
-
-    #Plot clusters
-    fig = plt.figure()
-    ax = fig.add_subplot(1,1,1)
-
-    #Plot where demand is pressumably higher during the day, first 6am-12pm, 6pm-12pm
-    ax.scatter(X_standardized[:, 0], X_standardized[:, 1], c=y_pred)
-    plt.show()
+    #
+    # '''
+    # Plots
+    # '''
+    # # elbows(X_standardized)
+    #
+    # cluster_plotter(X_standardized)
