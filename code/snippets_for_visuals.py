@@ -2,9 +2,116 @@ import project_fun as pf
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 import seaborn as sns
+import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 
+def plotting_clusters_behavior():
+    '''
+    Compute features for users.
+    '''
+
+    #SCENARIO 1: HOURLY AVERAGES,  24 FEATURES PER USER.
+
+    df = pf.load_data()
+    winter = (df.index.month ==12) | (df.index.month <=2)
+    summer = (df.index.month >= 6) & (df.index.month <=9)
+    autumn = (df.index.month >=9) & (df.index.month <=11)
+
+    df = df[autumn].groupby([pd.Grouper(freq='1H')]).agg(np.sum)
+
+    df = df.groupby(df.index.hour).mean().T
+    # Transposed df to ID as rows and hours as features.
+
+    #Detected Outlier 1035
+    no_outlier = df.index != 1035
+    df = df[no_outlier]
+
+    df = df.subtract(df.mean())
+    #Scale data
+    Scaler = StandardScaler(with_mean = False, with_std=False)
+    X = Scaler.fit_transform(df)
+    X_inv = Scaler.inverse_transform(X)
+
+    #Initialize K-Means
+    kmeans = KMeans(n_clusters = 6)
+    # Compute clusters for each user.
+    y_pred = kmeans.fit_predict(X)
+
+    # Lets plot their averaged to see whether there is an actual difference in their behavior.
+    fig, axes = plt.subplots(2,3, sharex=True, sharey=True)
+    cluster = 0
+    for i in range(2):
+        for j in range(3):
+            cluster_mask = y_pred == cluster
+            axes[i,j].plot(kmeans.cluster_centers_[cluster], '--', markersize = 5)
+            axes[i,j].plot(df[cluster_mask].T, '.', markersize = 5)
+            axes[i,j].plot(np.percentile(X_inv[cluster_mask].T, q=75, axis=1))
+            axes[i,j].plot(np.percentile(X_inv[cluster_mask].T, q=25, axis=1))
+            cluster += 1
+
+    plt.show()
+
+def features():
+    '''
+    Compute features for users.
+    '''
+
+    #SCENARIO 1: HOURLY AVERAGES ONLY, MEANING 24 FEATURES PER USER.
+
+    df = pf.load_data()
+    df = df.groupby([pd.Grouper(freq='1H')]).agg(np.sum)
+    df = df.groupby(df.index.hour).mean()
+    X = df.T
+
+    kmeans = KMeans(n_clusters = 6)
+    y_pred = kmeans.fit_predict(X)
+
+    #Lets plot their average to see whether there is an actual difference in their behavior.
+    fig = plt.figure(figsize=(10,4))
+
+    for cluster in xrange(6):
+        ax_ = fig.add_subplot(1,1,1)
+        ax_.plot(df.T[y_pred == cluster].mean(),label = cluster)
+
+    ax_.set_xlabel('time of day (h)')
+    ax_.set_ylabel('Consumption (kWh)')
+
+    plt.title('Mean cluster behaviour')
+    plt.legend()
+    plt.show()
+
+
+
+def seasonal_trend():
+
+    df = pf.load_data()
+    df = df.groupby([pd.Grouper(freq='1H')]).agg(np.sum)
+
+    spring = (df.index.month >= 3) & (df.index.month <=5)
+    summer = (df.index.month >= 6) & (df.index.month <=9)
+    autumn = (df.index.month >=9) & (df.index.month <=11)
+    winter = (df.index.month ==12) | (df.index.month <=2)
+
+    seasons = ['spring', 'summer', 'autumn', 'winter']
+
+    fig = plt.figure(figsize=(10,4))
+
+    for i, season in enumerate(seasons):
+
+        ax_ = fig.add_subplot(1,1,1)
+        ax_.plot(df[eval(season)].groupby(df[eval(season)].index.hour).mean().mean(axis=1), label = season )
+
+    ax_.set_xlabel('time of day (h)')
+    ax_.set_ylabel('Consumption (kWh)')
+
+    plt.title('Seasonal Demand')
+    plt.legend()
+    plt.show()
 
 def box_plotter():
+
     '''
     Boxplots of demand distributions (centered) per hour.
     '''
@@ -28,6 +135,7 @@ def box_plotter():
     df_fun.boxplot(ax = ax_ , return_type = 'axes')
 
     plt.show()
+
 
 def overall_trend():
 
@@ -58,7 +166,7 @@ def overall_trend():
     plt.legend()
     plt.show()
 
-def seasonal():
+def daily_agg():
 
     '''
     OVERALL MEAN DAILY AGGREGATION: Hourly and 30-min granularities
@@ -115,5 +223,4 @@ def stats_overview():
     plt.show()
 
 if __name__ == '__main__':
-
-    seasonal()
+    plotting_clusters_behavior()

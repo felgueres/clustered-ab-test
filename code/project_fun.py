@@ -44,6 +44,9 @@ def timespan(df):
 
 def seasonal_feature(df):
     seasons = {1: 'winter', 2:'spring', 3:'summer', 4:'autumn'}
+
+    autumn = datatime(month=8)
+    
     pass
 
 
