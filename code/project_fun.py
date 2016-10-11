@@ -8,9 +8,10 @@ from sklearn.preprocessing import StandardScaler
 from datetime import datetime, timedelta
 
 
-def load_data(picklepath='../data/working_data.pickle', start_date = datetime(2010,1,1), end_date = datetime(2010,12,31,23,59)):
+def load_data(picklepath='../data/full_dataset.pickle', start_date = datetime(2010,1,1), end_date = datetime(2010,12,31,23,59)):
     '''
     Loads data from pickle at given timespan.
+
     '''
 
     df = pickle.load(open(picklepath))
@@ -20,18 +21,6 @@ def load_data(picklepath='../data/working_data.pickle', start_date = datetime(20
     df.dropna(axis = 1, how = 'any', inplace = True)
 
     return df
-
-def sequential_aggregator(df, frequency = '1h'):
-    '''
-    Computes stats by frequency interval and user defined aggregating functions.
-
-    INPUT: DataFrame, frequency
-    OUTPUT: DataFrame
-
-    '''
-    # aggregators = [np.sum, np.mean, np.std]
-    aggregators = [np.sum]
-    return df.groupby([pd.Grouper(freq=frequency)]).agg(aggregators)
 
 def timespan(df):
     '''
@@ -46,7 +35,7 @@ def seasonal_feature(df):
     seasons = {1: 'winter', 2:'spring', 3:'summer', 4:'autumn'}
 
     autumn = datatime(month=8)
-    
+
     pass
 
 
