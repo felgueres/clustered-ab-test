@@ -3,7 +3,10 @@ import numpy as np
 import os
 import glob
 import sys
+import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
+import seaborn as sns
+import matplotlib.cm as cm
 
 def data_merger(folderpath):
     '''
@@ -158,8 +161,6 @@ def M_shape(X):
     X_M : array
         X transformed in new featured space.
 
-
-
     Notes
     -----
 
@@ -168,15 +169,108 @@ def M_shape(X):
 
     '''
 
+def plot_behavior_cluster(centroids, num_clusters):
+    '''
+    Plots computed clusters.
 
+    Parameters
+    ----------
 
+    Centroids : array
+        Predicted centroids of clusters.
 
+    num_clusters: int
+        Number of clusters.
 
+    Returns
+    -------
 
+    Plot : matplotlib.lines.Line2D
+        Figure.
 
+    '''
 
+    # Figure has all clusters on same plot.
 
+    fig = plt.figure(figsize=(10,7))
+    ax = fig.add_subplot(1,1,1)
 
+    # Set colors.
+    colors = cm.rainbow(np.linspace(0, 1, num_clusters))
+
+    # Plot cluster and corresponding color.
+    for cluster, color in enumerate(colors, start =1):
+
+        ax.plot(centroids[cluster-1], c = color, label = "Cluster %d" % cluster)
+
+    # Format figure.
+    ax.set_title("Centroids of consumption pattern of clusters, where k = 6", fontsize =14, fontweight='bold')
+    ax.set_xlim([0, 24])
+    ax.set_xticks(range(0, 25, 6))
+    ax.set_xlabel("Time (h)")
+    ax.set_ylabel("Consumption (kWh)")
+    leg = plt.legend(frameon = True, loc = 'upper left', ncol =2, fontsize = 12)
+    leg.get_frame().set_edgecolor('b')
+
+    plt.show()
+
+def plot_behavior_user(X_featurized, labels, num_clusters):
+    '''
+    Plot individual customer loads for every cluster.
+
+    Parameters
+    ----------
+
+    X_featurized : array-like
+        Featurized Data
+
+    labels: array-like
+        Predicted cluster to data.
+
+    num_clusters: int
+        Number of clusters.
+
+    Returns
+    -------
+
+    Plot : matplotlib.lines.Line2D
+        Figure.
+
+    '''
+    # The figure will have 3 clusters per column and num_clusters/3 rows.
+    plots_per_col = 2
+    plots_per_row = num_clusters/plots_per_col
+
+    # Creates axes, one per cluster.
+    fig, axes = plt.subplots(plots_per_col, plots_per_row, sharex=True, sharey=True)
+
+    # Define colors.
+    colors = cm.rainbow(np.linspace(0, 1, num_clusters))
+
+    #Initialize counter
+    cluster_counter = 0
+
+    for i in range(plots_per_col):
+        for j in range(plots_per_row):
+
+            # Create mask to isolate users corresponding to each cluster.
+            cluster_mask = labels == cluster_counter
+
+            axes[i,j].plot(X_featurized[cluster_mask].T)
+            # c = colors[cluster_counter]
+            # axes[i,j].plot(df[cluster_mask].T, '.', markersize = 3)
+            # axes[i,j].plot(np.percentile(df[cluster_mask].T, q=75, axis=1))
+            # axes[i,j].plot(np.percentile(df[cluster_mask].T, q=25, axis=1))
+            cluster_counter += 1
+
+    # plt.subplots_adjust(wspace=0, hspace=0)
+    # plt.set_title("Individual customer loads, where k = &d" % num_clusters)
+    # fig.set_xlabel("Time (h)")
+    # fig.set_ylabel("Consumption (kWh)")
+    # leg = plt.legend(frameon = True, loc = 'upper left', ncol =2, fontsize = 12)
+    # leg.get_frame().set_edgecolor('b')
+
+    plt.show()
 
 
 
