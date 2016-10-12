@@ -243,7 +243,7 @@ class PipeLine(object):
             # scaler = StandardScaler().fit(self.df_bm.T)
 
         # Initialize K-Means
-        model = KMeans(n_clusters = 6, random_state = 10)
+        model = KMeans(n_clusters = 4, random_state = 10)
 
         # Fit clusters.
         self.kmeans = model.fit(self.X_features)
@@ -275,5 +275,7 @@ class PipeLine(object):
 
         elif plot_type == 'hist_clusters':
             pass
+
+
 if __name__ == '__main__':
     pass

@@ -249,29 +249,29 @@ def plot_behavior_user(X_featurized, labels, num_clusters):
 
     #Initialize counter
     cluster_counter = 0
+    # ,
 
     for i in range(plots_per_col):
         for j in range(plots_per_row):
-
             # Create mask to isolate users corresponding to each cluster.
             cluster_mask = labels == cluster_counter
-
-            axes[i,j].plot(X_featurized[cluster_mask].T)
-            # c = colors[cluster_counter]
-            # axes[i,j].plot(df[cluster_mask].T, '.', markersize = 3)
-            # axes[i,j].plot(np.percentile(df[cluster_mask].T, q=75, axis=1))
-            # axes[i,j].plot(np.percentile(df[cluster_mask].T, q=25, axis=1))
+            axes[i,j].plot(X_featurized.columns, X_featurized[cluster_mask].T, c=colors[cluster_counter], alpha = 0.015)
+            axes[i,j].set_title('Cluster %d ' % (cluster_counter+1))
+            axes[i,j].set_xlim([0, 24])
+            axes[i,j].set_ylim([0, 3.2])
+            axes[i,j].set_xticks(range(0, 25, 6))
             cluster_counter += 1
 
-    # plt.subplots_adjust(wspace=0, hspace=0)
-    # plt.set_title("Individual customer loads, where k = &d" % num_clusters)
-    # fig.set_xlabel("Time (h)")
-    # fig.set_ylabel("Consumption (kWh)")
-    # leg = plt.legend(frameon = True, loc = 'upper left', ncol =2, fontsize = 12)
-    # leg.get_frame().set_edgecolor('b')
+    # Set common labels
+    fig.text(0.5, 0.04, 'Time (h)', ha='center', va='center')
+    fig.text(0.06, 0.5, 'Consumption (kWh)', ha='center', va='center', rotation='vertical')
 
+    plt.subplots_adjust(wspace=0.1)
+    # Set title to figure
+    fig.suptitle("Individual customer loads, where k = %d" % num_clusters, fontsize = 14, fontweight = 'bold')
     plt.show()
 
+    #save figs
 
 
 if __name__ == '__main__':
