@@ -110,13 +110,12 @@ def user_group(filepath, code =1 , residential_stimulus='E', residential_tariff=
     C   Control
 
     '''
-
-    df = pd.read_csv(filepath)
+    df_users = pd.read_csv(filepath)
     # df = df.ix[(df.Residential_Tariff == residential_tariff) & (df.Residential_stimulus == residential_stimulus) & (df.Code == code)]
-    df = df.ix[(df.Code == code)]
-    users = df.drop(['SME_allocation','Code'], axis = 1, inplace=True)
+    df_users = df_users.ix[(df_users.Code == code)]
+    df_users.drop(['SME_allocation','Code'], axis = 1, inplace=True)
 
-    return users
+    return df_users
 
 def date_decoder(date):
     '''
@@ -323,6 +322,9 @@ def plot_cluster_hist(X_featurized, labels, num_clusters):
     ax_.set_ylabel("Number of users")
 
     plt.show()
+
+def plot_experiments(clustersDict, num_clusters):
+
 
 if __name__ == '__main__':
 

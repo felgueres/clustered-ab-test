@@ -71,7 +71,7 @@ class PipeLine(object):
 
     '''
 
-    def __init__ (self, path, pickle_ = True , usersgroupfile='../data/allocations.csv'):
+    def __init__ (self, path, pickle_ = True):
 
         # Read folder files or reload pickle dataframe
         if pickle_:
@@ -111,6 +111,9 @@ class PipeLine(object):
 
         # Predicted Labels for each user.
         self.y_pred = None
+
+        # Dict with trial users, labeled and categorized with tariff subgroups.
+        self.clustersDict = {}
 
     def _dates(self):
         '''
@@ -158,12 +161,14 @@ class PipeLine(object):
         '''
 
         #1. Selects all residential users
-        self.users = user_group(usersgroupfile)
+        self.users = user_group('../data/allocations.csv')
 
         #2. Resets Dataframe for selected users only.
-        self.df = self.df.ix[self.df.ID.isin(self.users.ID)]
 
-        #3. 
+        if self.pickle_ == False:
+
+            self.df = self.df.ix[self.df.ID.isin(self.users.ID)]
+
 
     def transform(self):
         '''
@@ -194,16 +199,23 @@ class PipeLine(object):
             #3. Transform dates to workable format.
             self._dates()
 
+
+        # Import users dataframe
+        self._usergroup()
+
         #1.1. DataFrame partition to Benchamark and Trial Periods.
         self.df_bm = self.df[self.benchmark_start:self.benchmark_end]
         self.df_trial = self.df[self.trial_start:self.trial_end]
 
         #1.2 Trial data is has incomplete data, users are dropped on both DataFrames.
-        self.df_bm.dropna(axis = 1, how = 'any', inplace = True)
+        self.df_bm.dropna(axis= 1, how = 'any', inplace = True)
         self.df_trial.dropna(axis=1, how = 'any', inplace = True)
 
         #1.3 Drop users with not present on both DataFrames.
-        self.df_bm = self.df_bm.loc[:,self.df_trial.columns.isin(self.df_bm.columns.tolist())]
+
+        self.df_bm = self.df_bm.T.ix[self.df_bm.T.index.isin(self.df_trial.T.index)].T
+        self.df_trial = self.df_trial.T.ix[self.df_trial.T.index.isin(self.df_bm.T.index)].T
+
 
     def fit(self, featurization = 'load_profile', num_cluster = 6):
 
@@ -255,10 +267,16 @@ class PipeLine(object):
         # Predict labels.
         self.y_pred = self.kmeans.predict(self.X_features)
 
-        # Merge labels to trial dataset. Merge by ID.
+        # Merge labels and users to trial dataset. Merge by ID.
         _ = pd.DataFrame(data=self.y_pred, index = self.df_bm.T.index, columns = ['label'])
         self.df_trial = pd.merge(self.df_trial, _ , left_index=True, right_index=True, how ='inner')
+        self.df_trial = pd.merge(self.df_trial, self.users.set_index('ID',drop=True), left_index=True, right_index=True, how = 'inner')
 
+        # Segment trial users by cluster and tariff into Dict.
+
+        for cluster in np.arange(self.kmeans.n_clusters):
+            cluster_mask = self.df_trial.label == cluster
+            self.clustersDict[cluster+1] = self.df_trial[cluster_mask]
 
     def plotter(self, plot_type = 'behavior_cluster'):
         '''
@@ -285,6 +303,9 @@ class PipeLine(object):
         elif plot_type == 'hist_clusters':
             plot_cluster_hist(self.X_features, self.y_pred, self.kmeans.n_clusters)
 
+        elif plot_type == 'experiments':
+            plot_experiments(self.clustersDict, self.kmeans,n_clusters)
+
     def fit_transform(self):
         '''
         Equivalent to running transform and fit.
@@ -301,8 +322,6 @@ class PipeLine(object):
         # Create
 
         # for cluster in xrange(self.kmeans.n_clusters):
-
-
 
     def plotsss(self):
         for cluster in range(4,14,2):
