@@ -323,7 +323,7 @@ def plot_cluster_hist(X_featurized, labels, num_clusters):
 
     plt.show()
 
-def plot_trial(clustersDict, num_clusters):
+def plot_trial(clustersDict, num_clusters, alltariffs_ = False):
     '''
     Plots consumption durin trial period for DR and Control groups to compare the effect of initiatives.
 
@@ -337,6 +337,9 @@ def plot_trial(clustersDict, num_clusters):
 
     num_clusters: int
         Number of clusters.
+
+    alltariffs_: Boolean, default False
+        Use when each tariff needs comparison. When False, compares Control vs. all other tariffs.
 
     Returns
     -------
@@ -364,22 +367,41 @@ def plot_trial(clustersDict, num_clusters):
             # Create mask to isolate users corresponding to each cluster.
             df = clustersDict[cluster_counter]
 
-            # Tarriff 'E' is equivalent to 'Control', lets modify that.
-            df.Residential_Tariff = df.Residential_Tariff.apply(lambda x: 'Control' if x == 'E' else x)
+            # Tariffs
 
-            for tariff in df.Residential_Tariff.unique():
+            tariffs = ['Control', 'A', 'B', 'C', 'D']
+
+            if alltariffs_:
+                # Tarriff 'E' is equivalent to 'Control', lets modify that.
+                df.Residential_Tariff = df.Residential_Tariff.apply(lambda x: 'Control' if x == 'E' else x)
+
+            else:
+                df.Residential_Tariff = df.Residential_Tariff.apply(lambda x: 'Control' if x == 'E' else ('Trial' if x in tariffs[1:] else x))
+                tariffs = ['Control', 'Trial']
+
+            for tariff in tariffs:
+
                 sample_size = df.ix[df.Residential_Tariff == tariff].shape[0]
                 df_tariffs = df.ix[df.Residential_Tariff == tariff].iloc[:,:-3].T.mean(axis=1)
-                #Plot control.
-                #Note this DataFrame includes tariffs, incentives and labels at the end, so 3 columns must be left out.
+
+                # Aside to the tariff label, also include sample size.
+
                 axes[i,j].plot(df_tariffs, label = tariff + ': %d' %sample_size )
 
-            #We can further separate by tariff here with a for loop.
+            # Draw time-of-use periods
 
+            timeofuse = {'day': [8,16.9,'blue'],'peak':[17,19,'red'],'night': [0,7.9,'blue']}
+
+            for time in timeofuse:
+                axes[i,j].axvline(x = timeofuse[time][0], linestyle ='dashed', alpha =0.1, linewidth = 3, c=timeofuse[time][2])
+                axes[i,j].axvline(x = timeofuse[time][1], linestyle ='dashed', alpha =0.1, linewidth = 3, c=timeofuse[time][2])
+                axes[i,j].text(timeofuse[time][0],0.2, time, fontsize=7, fontweight='bold' )
+
+            #We can further separate by tariff here with a for loop.
             axes[i,j].set_title('Cluster %d ' % (cluster_counter+1))
             axes[i,j].set_xlim([0, 24])
-            axes[i,j].set_ylim([0, 3.2])
-            axes[i,j].set_xticks(range(0, 25, 6))
+            axes[i,j].set_ylim([0, 1.8])
+            axes[i,j].set_xticks(range(0, 25, 3))
             axes[i,j].legend(frameon = True, loc = 'upper left', ncol =2)
 
             cluster_counter += 1
