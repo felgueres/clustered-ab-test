@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from utilitiesforcleaning import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user, plot_cluster_hist, plot_trial
+from Utilities import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user, plot_cluster_hist, plot_trial
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime, timedelta
@@ -311,24 +311,12 @@ class PipeLine(object):
         elif plot_type == 'hist_clusters':
             plot_cluster_hist(self.X_features, self.y_pred, self.kmeans.n_clusters)
 
-        elif plot_type == 'trial':
-            plot_trial(self.clustersDict, self.kmeans.n_clusters)
+        elif plot_type == 'trial1':
+            plot_trial(self.clustersDict, self.kmeans.n_clusters, True)
 
-    def predict(self):
-        pass
+        elif plot_type == 'trial2':
+            plot_trial(self.clustersDict, self.kmeans.n_clusters, False)
 
-        # self.df_trial = pd.merge(self.df_trial.T, df_temp, left_index=True, right_index=True, how ='inner')
-
-        # Create
-
-        # for cluster in xrange(self.kmeans.n_clusters):
-
-    def plotsss(self):
-        for cluster in range(4,14,2):
-            self.fit(num_cluster = cluster)
-            self.plotter('behavior_cluster')
-            self.plotter('behavior_user')
-            self.plotter('hist_clusters')
 
 if __name__ == '__main__':
     pass
