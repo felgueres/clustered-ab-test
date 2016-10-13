@@ -323,7 +323,7 @@ def plot_cluster_hist(X_featurized, labels, num_clusters):
 
     plt.show()
 
-def plot_trial(clustersDict, num_clusters, alltariffs_ = False):
+def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
     '''
     Plots consumption durin trial period for DR and Control groups to compare the effect of initiatives.
 
@@ -362,6 +362,9 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = False):
     #Initialize counter
     cluster_counter = 0
 
+    # X_range
+    x_range = [0,24]
+
     for i in range(plots_per_col):
         for j in range(plots_per_row):
             # Create mask to isolate users corresponding to each cluster.
@@ -390,16 +393,17 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = False):
 
             # Draw time-of-use periods
 
-            timeofuse = {'day': [8,16.9,'blue'],'peak':[17,19,'red'],'night': [0,7.9,'blue']}
+            timeofuse = {'day': [8,17,'blue'], 'peak':[17,19,'red'], 'night': [0,8,'green'], 'day2':[19,24,'blue']}
 
             for time in timeofuse:
-                axes[i,j].axvline(x = timeofuse[time][0], linestyle ='dashed', alpha =0.1, linewidth = 3, c=timeofuse[time][2])
-                axes[i,j].axvline(x = timeofuse[time][1], linestyle ='dashed', alpha =0.1, linewidth = 3, c=timeofuse[time][2])
-                axes[i,j].text(timeofuse[time][0],0.2, time, fontsize=7, fontweight='bold' )
+                # axes[i,j].axvline(x = timeofuse[time][0], alpha =0.1, linewidth = 3, c=timeofuse[time][2])
+                # axes[i,j].axvline(x = timeofuse[time][1], alpha =0.1, linewidth = 3, c=timeofuse[time][2])
+
+                axes[i,j].fill_between(x = [timeofuse[time][0],timeofuse[time][1]], y1=0,y2=1.8, alpha=0.1, facecolor = timeofuse[time][2])
 
             #We can further separate by tariff here with a for loop.
             axes[i,j].set_title('Cluster %d ' % (cluster_counter+1))
-            axes[i,j].set_xlim([0, 24])
+            axes[i,j].set_xlim(x_range)
             axes[i,j].set_ylim([0, 1.8])
             axes[i,j].set_xticks(range(0, 25, 3))
             axes[i,j].legend(frameon = True, loc = 'upper left', ncol =2)
@@ -412,7 +416,7 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = False):
 
     plt.subplots_adjust(wspace=0.1)
     # Set title to figure
-    fig.suptitle("Trial vs Control, where k = %d" % num_clusters, fontsize = 14, fontweight = 'bold')
+    fig.suptitle("Trial: Control vs. Time-of-use Tariffs, where k = %d" % num_clusters, fontsize = 14, fontweight = 'bold')
     plt.show()
     #save figs
 
