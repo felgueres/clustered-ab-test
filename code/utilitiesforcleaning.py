@@ -70,8 +70,11 @@ def user_group(filepath, code =1 , residential_stimulus='E', residential_tariff=
     Returns
     -------
 
-    users_list : pandas Series
+    users_id : pandas Series
+        Residential users ids.
 
+    users: pandas DataFrame
+        Users data.
 
     Notes
     -----
@@ -111,11 +114,9 @@ def user_group(filepath, code =1 , residential_stimulus='E', residential_tariff=
     df = pd.read_csv(filepath)
     # df = df.ix[(df.Residential_Tariff == residential_tariff) & (df.Residential_stimulus == residential_stimulus) & (df.Code == code)]
     df = df.ix[(df.Code == code)]
+    users = df.drop(['SME_allocation','Code'], axis = 1, inplace=True)
 
-    # Select users
-    users_series = df.ID
-
-    return users_series
+    return users
 
 def date_decoder(date):
     '''
@@ -204,7 +205,7 @@ def plot_behavior_cluster(centroids, num_clusters):
         ax.plot(centroids[cluster-1], c = color, label = "Cluster %d" % cluster)
 
     # Format figure.
-    ax.set_title("Centroids of consumption pattern of clusters, where k = 6", fontsize =14, fontweight='bold')
+    ax.set_title("Centroids of consumption pattern of clusters, where k = %d" % num_clusters, fontsize =14, fontweight='bold')
     ax.set_xlim([0, 24])
     ax.set_xticks(range(0, 25, 6))
     ax.set_xlabel("Time (h)")
@@ -273,6 +274,55 @@ def plot_behavior_user(X_featurized, labels, num_clusters):
 
     #save figs
 
+def plot_cluster_hist(X_featurized, labels, num_clusters):
+    '''
+    Plot histograms of users and corresponding clusters.
+
+    Parameters
+    ----------
+
+    X_featurized : array-like
+        Featurized Data
+
+    labels: array-like
+        Predicted cluster to data.
+
+    num_clusters: int
+        Number of clusters.
+
+    Returns
+    -------
+
+    Plot : matplotlib.lines.Line2D
+        Figure.
+
+    '''
+
+    fig = plt.figure()
+    ax_ = fig.add_subplot(1,1,1)
+
+    # Set colors.
+    # colors = cm.rainbow(np.linspace(0, 1, num_clusters))
+
+    # Create DataFrame with features and labels.
+    # Note sklearn cluster naming starts at zero, so adding 1 is convenient.
+
+    X_featurized['label'] = labels + 1
+    # Parameters for plotting.
+    params_ = {'ax': ax_ , 'bins': np.arange(num_clusters +2) - 0.5}
+    # Plot cluster and corresponding color.
+    X_featurized.label.plot(kind = 'hist', **params_)
+
+    # Format figure.
+
+    ax_.set_title("Number of users in each cluster.", fontsize =14, fontweight='bold')
+    ax_.set_xticks(range(1, num_clusters +1))
+    ax_.set_xlim([0,num_clusters + 1])
+    ax_.set_ylim([0,1200])
+    ax_.set_xlabel('Cluster')
+    ax_.set_ylabel("Number of users")
+
+    plt.show()
 
 if __name__ == '__main__':
 

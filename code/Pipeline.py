@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from utilitiesforcleaning import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user
+from utilitiesforcleaning import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user, plot_cluster_hist
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime, timedelta
@@ -157,11 +157,13 @@ class PipeLine(object):
 
         '''
 
-        #1. Selects users from user criteria.
+        #1. Selects all residential users
         self.users = user_group(usersgroupfile)
 
         #2. Resets Dataframe for selected users only.
-        self.df = self.df.ix[self.df.ID.isin(self.users)]
+        self.df = self.df.ix[self.df.ID.isin(self.users.ID)]
+
+        #3. 
 
     def transform(self):
         '''
@@ -203,7 +205,7 @@ class PipeLine(object):
         #1.3 Drop users with not present on both DataFrames.
         self.df_bm = self.df_bm.loc[:,self.df_trial.columns.isin(self.df_bm.columns.tolist())]
 
-    def fit(self, featurization = 'load_profile'):
+    def fit(self, featurization = 'load_profile', num_cluster = 6):
 
         '''
         Compute features and k-means clustering on Benchmark data.
@@ -235,6 +237,8 @@ class PipeLine(object):
         if featurization == 'load_profile':
             # Compute hourly means for entire period per user.
             self.X_features = self.df_bm.groupby(self.df_bm.index.hour).mean().T
+            # Same for the trial period
+            self.df_trial = self.df_trial.groupby(self.df_trial.index.hour).mean().T
 
         elif featurization == 'M-shape':
             pass
@@ -243,13 +247,18 @@ class PipeLine(object):
             # scaler = StandardScaler().fit(self.df_bm.T)
 
         # Initialize K-Means
-        model = KMeans(n_clusters = 4, random_state = 10)
+        model = KMeans(n_clusters = num_cluster, random_state = 10)
 
         # Fit clusters.
         self.kmeans = model.fit(self.X_features)
 
         # Predict labels.
         self.y_pred = self.kmeans.predict(self.X_features)
+
+        # Merge labels to trial dataset. Merge by ID.
+        _ = pd.DataFrame(data=self.y_pred, index = self.df_bm.T.index, columns = ['label'])
+        self.df_trial = pd.merge(self.df_trial, _ , left_index=True, right_index=True, how ='inner')
+
 
     def plotter(self, plot_type = 'behavior_cluster'):
         '''
@@ -274,8 +283,33 @@ class PipeLine(object):
             plot_behavior_user(X_featurized = self.X_features, labels = self.y_pred, num_clusters = self.kmeans.n_clusters)
 
         elif plot_type == 'hist_clusters':
-            pass
+            plot_cluster_hist(self.X_features, self.y_pred, self.kmeans.n_clusters)
 
+    def fit_transform(self):
+        '''
+        Equivalent to running transform and fit.
+        '''
+
+        self.transform()
+        self.fit()
+
+    def predict(self):
+        pass
+
+        # self.df_trial = pd.merge(self.df_trial.T, df_temp, left_index=True, right_index=True, how ='inner')
+
+        # Create
+
+        # for cluster in xrange(self.kmeans.n_clusters):
+
+
+
+    def plotsss(self):
+        for cluster in range(4,14,2):
+            self.fit(num_cluster = cluster)
+            self.plotter('behavior_cluster')
+            self.plotter('behavior_user')
+            self.plotter('hist_clusters')
 
 if __name__ == '__main__':
     pass
