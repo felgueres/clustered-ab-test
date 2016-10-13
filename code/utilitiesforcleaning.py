@@ -323,8 +323,76 @@ def plot_cluster_hist(X_featurized, labels, num_clusters):
 
     plt.show()
 
-def plot_experiments(clustersDict, num_clusters):
+def plot_trial(clustersDict, num_clusters):
+    '''
+    Plots consumption durin trial period for DR and Control groups to compare the effect of initiatives.
 
+    Parameters
+    ----------
+
+    clustersDict : dict
+        Contains trial users segmented by cluster.
+        Key = cluster
+        Values = DataFrame with all features
+
+    num_clusters: int
+        Number of clusters.
+
+    Returns
+    -------
+
+    Plot : matplotlib.lines.Line2D
+        Figure.
+
+    '''
+
+    # The figure will have 3 clusters per column and num_clusters/3 rows.
+    plots_per_col = 2
+    plots_per_row = num_clusters/plots_per_col
+
+    # Creates axes, one per cluster.
+    fig, axes = plt.subplots(plots_per_col, plots_per_row, sharex=True, sharey=True)
+
+    # Define colors.
+    colors = cm.rainbow(np.linspace(0, 1, num_clusters))
+
+    #Initialize counter
+    cluster_counter = 0
+
+    for i in range(plots_per_col):
+        for j in range(plots_per_row):
+            # Create mask to isolate users corresponding to each cluster.
+            df = clustersDict[cluster_counter]
+
+            # Tarriff 'E' is equivalent to 'Control', lets modify that.
+            df.Residential_Tariff = df.Residential_Tariff.apply(lambda x: 'Control' if x == 'E' else x)
+
+            for tariff in df.Residential_Tariff.unique():
+                sample_size = df.ix[df.Residential_Tariff == tariff].shape[0]
+                df_tariffs = df.ix[df.Residential_Tariff == tariff].iloc[:,:-3].T.mean(axis=1)
+                #Plot control.
+                #Note this DataFrame includes tariffs, incentives and labels at the end, so 3 columns must be left out.
+                axes[i,j].plot(df_tariffs, label = tariff + ': %d' %sample_size )
+
+            #We can further separate by tariff here with a for loop.
+
+            axes[i,j].set_title('Cluster %d ' % (cluster_counter+1))
+            axes[i,j].set_xlim([0, 24])
+            axes[i,j].set_ylim([0, 3.2])
+            axes[i,j].set_xticks(range(0, 25, 6))
+            axes[i,j].legend(frameon = True, loc = 'upper left', ncol =2)
+
+            cluster_counter += 1
+
+    # Set common labels
+    fig.text(0.5, 0.04, 'Time (h)', ha='center', va='center')
+    fig.text(0.06, 0.5, 'Consumption (kWh)', ha='center', va='center', rotation='vertical')
+
+    plt.subplots_adjust(wspace=0.1)
+    # Set title to figure
+    fig.suptitle("Trial vs Control, where k = %d" % num_clusters, fontsize = 14, fontweight = 'bold')
+    plt.show()
+    #save figs
 
 if __name__ == '__main__':
 

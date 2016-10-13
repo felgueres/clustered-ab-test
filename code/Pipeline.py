@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from utilitiesforcleaning import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user, plot_cluster_hist
+from utilitiesforcleaning import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user, plot_cluster_hist, plot_trial
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime, timedelta
@@ -276,7 +276,15 @@ class PipeLine(object):
 
         for cluster in np.arange(self.kmeans.n_clusters):
             cluster_mask = self.df_trial.label == cluster
-            self.clustersDict[cluster+1] = self.df_trial[cluster_mask]
+            self.clustersDict[cluster] = self.df_trial[cluster_mask]
+
+    def transform_fit(self):
+        '''
+        Equivalent to running transform and fit.
+        '''
+
+        self.transform()
+        self.fit()
 
     def plotter(self, plot_type = 'behavior_cluster'):
         '''
@@ -303,16 +311,8 @@ class PipeLine(object):
         elif plot_type == 'hist_clusters':
             plot_cluster_hist(self.X_features, self.y_pred, self.kmeans.n_clusters)
 
-        elif plot_type == 'experiments':
-            plot_experiments(self.clustersDict, self.kmeans,n_clusters)
-
-    def fit_transform(self):
-        '''
-        Equivalent to running transform and fit.
-        '''
-
-        self.transform()
-        self.fit()
+        elif plot_type == 'trial':
+            plot_trial(self.clustersDict, self.kmeans.n_clusters)
 
     def predict(self):
         pass
