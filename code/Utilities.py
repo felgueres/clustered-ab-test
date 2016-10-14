@@ -455,8 +455,9 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
                 peak_patch = mpatches.Patch(color='red', label='peak', alpha = 0.1)
                 day_patch = mpatches.Patch(color='blue', label='day', alpha=0.1)
                 night_patch = mpatches.Patch(color='green', label='night', alpha = 0.1)
+                # time_of_use =
                 # time_of_use_legends = plt.legend([0,0,0], )
-                time_legends = plt.legend(handles=[peak_patch, day_patch, night_patch], loc=4, frameon = True, ncol =1)
+                time_legends = plt.legend(handles=[peak_patch, day_patch, night_patch,  ], loc=4, frameon = True, ncol =1)
 
                 #manually create time-of-use-patch labels
                 ax_ = plt.gca().add_artist(time_legends)
