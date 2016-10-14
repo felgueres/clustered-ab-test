@@ -217,7 +217,7 @@ class PipeLine(object):
         self.df_trial = self.df_trial.T.ix[self.df_trial.T.index.isin(self.df_bm.T.index)].T
 
 
-    def fit(self, featurization = 'load_profile', num_cluster = 6):
+    def fit(self, featurization = 'load_profile', num_cluster = 8):
 
         '''
         Compute features and k-means clustering on Benchmark data.

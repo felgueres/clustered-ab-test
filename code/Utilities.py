@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 import seaborn as sns
 import matplotlib.cm as cm
 import matplotlib.patches as mpatches
+import matplotlib.lines as mlines
 
 def data_merger(folderpath):
     '''
@@ -374,7 +375,7 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
     # The value in each key of the following timeofuse dict is [hour range min, hour range max
     # color to shade, tariff pricing for [A, B, C, D]]
 
-    timeofuse = {'day': [8,17,'blue',[14,13.5,13,12.5]], 'peak':[17,19,'red',[20,26,32,38]], \
+    timeofuse = {'day': [8,17,'blue',[14,13.5,13,12.5]], 'peak':[17,19,'magenta',[20,26,32,38]], \
                 'night': [0,8,'green',[12,11,10,9]], 'day2':[19,24,'blue',[14,13.5, 13 ,12.5]]}
 
     #Create dictionary with usercount per tariff per cluster.
@@ -438,7 +439,7 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
             #Create temporary axis.
 
             secondary_ax = axes[i,j].twinx()
-            secondary_ax.plot(x_space, y, linewidth=1, linestyle='-')
+            secondary_ax.plot(x_space, y, linewidth=1, linestyle='--', color='red', alpha=0.3)
             secondary_ax.set_ylim([10, 50])
             plt.setp(secondary_ax.get_yticklabels(), visible=False)
 
@@ -446,18 +447,18 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
 
             axes[i,j].set_title('Cluster %d ' % (cluster_counter+1))
             axes[i,j].set_xlim(x_range)
-            axes[i,j].set_ylim([0, 1.8])
+            axes[i,j].set_ylim([0, 2])
             axes[i,j].set_xticks(range(0, 25, 3))
 
             # Insert patch with time of use color code on last plot.
             if cluster_counter == num_clusters -1:
                 # Create patches to denote the time-of-use tariffs.
-                peak_patch = mpatches.Patch(color='red', label='peak', alpha = 0.1)
+                peak_patch = mpatches.Patch(color='magenta', label='peak', alpha = 0.1)
                 day_patch = mpatches.Patch(color='blue', label='day', alpha=0.1)
                 night_patch = mpatches.Patch(color='green', label='night', alpha = 0.1)
-                # time_of_use =
-                # time_of_use_legends = plt.legend([0,0,0], )
-                time_legends = plt.legend(handles=[peak_patch, day_patch, night_patch,  ], loc=4, frameon = True, ncol =1)
+                time_of_use = mlines.Line2D([], [], color='red', linestyle = '--', label='DR tarriff', alpha=0.3)
+
+                time_legends = plt.legend(handles=[peak_patch, day_patch, night_patch,time_of_use], loc=4, frameon = True, ncol =1)
 
                 #manually create time-of-use-patch labels
                 ax_ = plt.gca().add_artist(time_legends)
