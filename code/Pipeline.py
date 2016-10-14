@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from Utilities import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user, plot_cluster_hist, plot_trial
+from Utilities import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user, plot_cluster_hist, plot_trial, AB
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime, timedelta
@@ -217,7 +218,7 @@ class PipeLine(object):
         self.df_trial = self.df_trial.T.ix[self.df_trial.T.index.isin(self.df_bm.T.index)].T
 
 
-    def fit(self, featurization = 'load_profile', num_cluster = 8):
+    def fit(self, featurization = 'load_profile', num_cluster = 6):
 
         '''
         Compute features and k-means clustering on Benchmark data.
@@ -273,7 +274,6 @@ class PipeLine(object):
         self.df_trial = pd.merge(self.df_trial, self.users.set_index('ID',drop=True), left_index=True, right_index=True, how = 'inner')
 
         # Segment trial users by cluster and tariff into Dict.
-
         for cluster in np.arange(self.kmeans.n_clusters):
             cluster_mask = self.df_trial.label == cluster
             self.clustersDict[cluster] = self.df_trial[cluster_mask]
@@ -316,6 +316,30 @@ class PipeLine(object):
 
         elif plot_type == 'trial2':
             plot_trial(self.clustersDict, self.kmeans.n_clusters, alltariffs_ = False)
+
+    def test(self, type_ = 'AB'):
+        '''
+
+        Now that we have discarded through visual examintion whether a cluster is responsive or not.
+        Run a clinical trial to the results. Under the assumption the underlying distribution of this samples are normally distributed.
+
+        Parameters
+        ----------
+
+        type : string, default 'AB'
+
+            Specify type of analysis.
+
+            1) 'AB': Compute confidence intervals and A|B test of trial.
+                    One-way test:
+                    Hypothesis H0: Mean DR == Mean Control
+
+            2) 'Power': Compute statistical power of the AB test.
+
+        '''
+
+        if type_ == 'AB':
+            AB(k_model = self.kmeans, clustersDict = self.clustersDict)
 
 
 if __name__ == '__main__':

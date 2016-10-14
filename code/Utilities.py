@@ -9,6 +9,9 @@ import seaborn as sns
 import matplotlib.cm as cm
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
+from scipy import stats as scs
+from scipy.stats import ttest_ind
+from scipy.stats import mannwhitneyu
 
 def data_merger(folderpath):
     '''
@@ -169,7 +172,11 @@ def M_shape(X):
     The average daily usage in the data set demonstrates on morning peak and one evening peak.
     Capturing consumption values at these two peaks characterizes household's patterns.
 
+    THIS FEATURE WILL BE DEVELOPED IF TIME ALLOWS.
+
     '''
+
+    pass
 
 def plot_behavior_cluster(centroids, num_clusters):
     '''
@@ -362,6 +369,9 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
     # Creates axes, one per cluster.
     fig, axes = plt.subplots(plots_per_col, plots_per_row, sharex=True, sharey=True)
 
+    # #Set size
+    fig.set_size_inches([12,12])
+
     # Define colors.
     colors = cm.rainbow(np.linspace(0, 1, num_clusters))
 
@@ -422,7 +432,7 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
             #USE fill_between function to shade between two functions, in this case, time periods.
             for time in timeofuse:
 
-                axes[i,j].fill_between(x = [timeofuse[time][0],timeofuse[time][1]], y1=0,y2=1.8, alpha=0.1, facecolor = timeofuse[time][2])
+                axes[i,j].fill_between(x = [timeofuse[time][0],timeofuse[time][1]], y1=0,y2=4, alpha=0.1, facecolor = timeofuse[time][2])
                 # For the aggregate level only, lets compute the expected overall tariff.
                 # Since the pricing for control is constant, we can graph the function to check responsiveness in the trial.
 
@@ -437,11 +447,11 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
                     #
 
             #Create temporary axis.
-
-            secondary_ax = axes[i,j].twinx()
-            secondary_ax.plot(x_space, y, linewidth=1, linestyle='--', color='red', alpha=0.3)
-            secondary_ax.set_ylim([10, 50])
-            plt.setp(secondary_ax.get_yticklabels(), visible=False)
+            if alltariffs_ == False:
+                secondary_ax = axes[i,j].twinx()
+                secondary_ax.plot(x_space, y, linewidth=1, linestyle='--', color='red', alpha=0.3)
+                secondary_ax.set_ylim([10, 50])
+                plt.setp(secondary_ax.get_yticklabels(), visible=False)
 
             #_______________ ADD SOME FORMATING TO AXIS AND ADD LABELS._________
 
@@ -456,9 +466,13 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
                 peak_patch = mpatches.Patch(color='magenta', label='peak', alpha = 0.1)
                 day_patch = mpatches.Patch(color='blue', label='day', alpha=0.1)
                 night_patch = mpatches.Patch(color='green', label='night', alpha = 0.1)
-                time_of_use = mlines.Line2D([], [], color='red', linestyle = '--', label='DR tarriff', alpha=0.3)
 
-                time_legends = plt.legend(handles=[peak_patch, day_patch, night_patch,time_of_use], loc=4, frameon = True, ncol =1)
+                if alltariffs_ == False:
+                    time_of_use = mlines.Line2D([], [], color='red', linestyle = '--', label='DR tarriff', alpha=0.3)
+                    time_legends = plt.legend(handles=[peak_patch, day_patch, night_patch,time_of_use], loc=4, frameon = True, ncol =1)
+
+                else:
+                    time_legends = plt.legend(handles=[peak_patch, day_patch, night_patch], loc=4, frameon = True, ncol =1)
 
                 #manually create time-of-use-patch labels
                 ax_ = plt.gca().add_artist(time_legends)
@@ -480,6 +494,43 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
     fig.suptitle("Control vs. Time-of-use Tariffs, where k = %d" % num_clusters, fontsize = 14, fontweight = 'bold')
     plt.show()
 
+def AB(k_model, clustersDict):
+
+    '''
+    Computes AB testing on clustered samples.
+
+    Parameters
+    ----------
+
+    k_model : sklearn.KMEANS
+        Trained Kmeans model.
+
+    data: dict
+        Dictionary containing DataFrames for all clusters.
+
+    Returns
+    -------
+
+    Plot : matplotlib.lines.Line2D
+        Figure.
+
+    '''
+    tariffs = ['E', 'A', 'B', 'C', 'D']
+
+    timeofuse = {'day': [8,17], 'peak':[17,19], 'night': [0,8], 'day2':[19,24]}
+
+    for cluster in clustersDict:
+
+        df = clustersDict[cluster]
+        df = df.ix[df.Residential_Tariff.isin(tariffs)]
+        df.Residential_Tariff = df.Residential_Tariff.apply(lambda x: 'Control' if x == 'E' else 'Trial')
+        # df = df.ix[df.Residential_Tariff == tariffs].iloc[:,:-3].T.mean(axis=1)
+
+        _df_Control = df.ix[df.Residential_Tariff == 'Control'].iloc[:,:-3].T
+        _df_Trial = df.ix[df.Residential_Tariff == 'Trial'].iloc[:,:-3].T
+
+        print 'Cluster %d peak p-value:' % (cluster +1), ttest_ind(_df_Control.iloc[17:20,:].sum(), _df_Trial.iloc[17:20,:].sum(), equal_var=False)
+        print 'Cluster %d peak p-value:' % (cluster +1), mannwhitneyu(_df_Control.iloc[17:20,:].sum(), _df_Trial.iloc[17:20,:].sum(), alternative = 'greater')
 
 if __name__ == '__main__':
 
