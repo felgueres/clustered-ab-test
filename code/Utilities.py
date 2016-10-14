@@ -437,9 +437,10 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
 
             #Create temporary axis.
 
-            ax2 = axes[i,j].twinx()
-            ax2.plot(x_space, y, linewidth=1 )
-
+            secondary_ax = axes[i,j].twinx()
+            secondary_ax.plot(x_space, y, linewidth=1, linestyle='-')
+            secondary_ax.set_ylim([10, 50])
+            plt.setp(secondary_ax.get_yticklabels(), visible=False)
 
             #_______________ ADD SOME FORMATING TO AXIS AND ADD LABELS._________
 
