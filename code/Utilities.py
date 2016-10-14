@@ -342,6 +342,10 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
     alltariffs_: Boolean, default False
         Use when each tariff needs comparison. When False, compares Control vs. all other tariffs.
 
+    tariffsDict: dict
+        Contains pricing for each tariff.
+        Each value is a list with pricing corresponding to Day, Night and Peak, Time-of-use tariffs.
+
     Returns
     -------
 
@@ -366,6 +370,17 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
     # X_range
     x_range = [0,24]
 
+    # Time-of-use tariffs
+    # The value in each key of the following timeofuse dict is [hour range min, hour range max
+    # color to shade, tariff pricing for [A, B, C, D]]
+
+    timeofuse = {'day': [8,17,'blue',[14,13.5,13,12.5]], 'peak':[17,19,'red',[20,26,32,38]], \
+                'night': [0,8,'green',[12,11,10,9]], 'day2':[19,24,'blue',[14,13.5, 13 ,12.5]]}
+
+    #Create dictionary with usercount per tariff per cluster.
+
+    userDict = {}
+
     for i in range(plots_per_col):
         for j in range(plots_per_row):
             # Create mask to isolate users corresponding to each cluster.
@@ -375,13 +390,19 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
 
             tariffs = ['Control', 'A', 'B', 'C', 'D']
 
+            #__________________PLOT CONTROL USERS__________________________
+
             if alltariffs_:
                 # Tarriff 'E' is equivalent to 'Control', lets modify that.
                 df.Residential_Tariff = df.Residential_Tariff.apply(lambda x: 'Control' if x == 'E' else x)
 
             else:
+
+                user_counts = df.ix[df.Residential_Tariff.isin(tariffs)].Residential_Tariff.value_counts().sort_index()
                 df.Residential_Tariff = df.Residential_Tariff.apply(lambda x: 'Control' if x == 'E' else ('Trial' if x in tariffs[1:] else x))
                 tariffs = ['Control', 'Trial']
+
+            #___________________PLOT TARIFF USERS___________________________
 
             for tariff in tariffs:
 
@@ -391,22 +412,44 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
                 # Aside to the tariff label, also include sample size.
                 axes[i,j].plot(df_tariffs, label = tariff + ': %d' %sample_size )
 
-            # Draw time-of-use periods
+            #___________________SHADE TIME-OF-USE TARIFFS____________________
+            # Set a timespan space to plot the tariff function.
+            x_space = np.linspace(0,23,1000)
+            # Set default array of zeros
+            y = np.zeros(1000)
 
-            timeofuse = {'day': [8,17,'blue'], 'peak':[17,19,'red'], 'night': [0,8,'green'], 'day2':[19,24,'blue']}
-
+            #USE fill_between function to shade between two functions, in this case, time periods.
             for time in timeofuse:
 
                 axes[i,j].fill_between(x = [timeofuse[time][0],timeofuse[time][1]], y1=0,y2=1.8, alpha=0.1, facecolor = timeofuse[time][2])
-                # axes[i,j].fill_between(x = [timeofuse[time][0],timeofuse[time][1]], y1=0,y2=1.8, alpha=0.1, facecolor = timeofuse[time][2])
+                # For the aggregate level only, lets compute the expected overall tariff.
+                # Since the pricing for control is constant, we can graph the function to check responsiveness in the trial.
 
-            #We can further separate by tariff here with a for loop.
+                if alltariffs_ == False :
+
+                    #Weight the tariff for the specific period:
+                    weighted_average_tariff = np.sum(np.multiply(timeofuse[time][3], user_counts.values))/np.sum(user_counts.values)
+
+                    #Plot it in the secondary axis.
+                    # y[(x_space >= timeofuse[time][0]) & (x_space <= timeofuse[time][1])] = weighted_average_tariff
+                    y[(x_space >= timeofuse[time][0]) & (x_space <= timeofuse[time][1])] = weighted_average_tariff
+                    #
+
+            #Create temporary axis.
+
+            ax2 = axes[i,j].twinx()
+            ax2.plot(x_space, y, linewidth=1 )
+
+
+            #_______________ ADD SOME FORMATING TO AXIS AND ADD LABELS._________
+
             axes[i,j].set_title('Cluster %d ' % (cluster_counter+1))
             axes[i,j].set_xlim(x_range)
             axes[i,j].set_ylim([0, 1.8])
             axes[i,j].set_xticks(range(0, 25, 3))
 
-            if cluster_counter == num_clusters - 1 :
+            # Insert patch with time of use color code on last plot.
+            if cluster_counter == num_clusters -1:
                 # Create patches to denote the time-of-use tariffs.
                 peak_patch = mpatches.Patch(color='red', label='peak', alpha = 0.1)
                 day_patch = mpatches.Patch(color='blue', label='day', alpha=0.1)
@@ -423,18 +466,17 @@ def plot_trial(clustersDict, num_clusters, alltariffs_ = True):
             else:
                 axes[i,j].legend(frameon=True, loc = 'upper left', ncol =2)
 
-
             cluster_counter += 1
 
-    red_patch = mpatches.Patch(color='red', label='peak', alpha = 0.1)
-    # plt.legend(bbox_to_anchor =(1,1), bbox_transform=plt.gcf().transFigure, handles=[red_patch])
     # Set common labels
     fig.text(0.5, 0.04, 'Time (h)', ha='center', va='center')
     fig.text(0.06, 0.5, 'Consumption (kWh)', ha='center', va='center', rotation='vertical')
     plt.subplots_adjust(wspace=0.1)
+
     # Set title to figure
-    fig.suptitle("Trial: Control vs. Time-of-use Tariffs, where k = %d" % num_clusters, fontsize = 14, fontweight = 'bold')
+    fig.suptitle("Control vs. Time-of-use Tariffs, where k = %d" % num_clusters, fontsize = 14, fontweight = 'bold')
     plt.show()
+
 
 if __name__ == '__main__':
 

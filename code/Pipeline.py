@@ -315,7 +315,7 @@ class PipeLine(object):
             plot_trial(self.clustersDict, self.kmeans.n_clusters, True)
 
         elif plot_type == 'trial2':
-            plot_trial(self.clustersDict, self.kmeans.n_clusters, False)
+            plot_trial(self.clustersDict, self.kmeans.n_clusters, alltariffs_ = False)
 
 
 if __name__ == '__main__':
