@@ -41,30 +41,29 @@ This project can be conceived as a 4-step process.
 
 Essentially, the consumption of each user at any given time period can be thought of as an independent feature.
 On a 15-min granularity and for roughly 4,000 households, it implies a very high dimensionality matrix.
-Hence, the first challenge is reducing dimensionality while capturing the households' usage profile in 1) magnitude, 2) variability.
+Hence, the first challenge is reducing dimensionality while capturing the households' usage profile in 1) magnitude, and, 2) variability.
 
 2) _k-Means clustering_
 
 The second step is to implement a clustering technique that focuses on capturing subgroups of users load profile.
 The value of this step lies in reducing dimensionality and defining a working hypothesis of the consumption of the users:
 
-Working hypothesis:
+> _Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group_.
 
-> __Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group__.
+Helpful enough, this dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering of all users (benchmark period).
+On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within days non-event DR days. In fact, clustering within on-off periods of DR events may be more accurate since seasonal usage patterns could be captured through the clustering.
 
-Note that feature construction of step one is crucial for this step's success.
-This dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering of all users (benchmark period).
 
 3) _Defining a baseline for comparison_
 
 In order to assess how responsive a subgroup is to a given stimulus, a baseline is required.
 The challenge lies in that the actual baseline load of a household is unknown and one can only estimate it.
 
-In this project, the baseline estimation is calculated as a function of the control (clustered) mean, but note that other models such as a regression-based model may increase the accuracy of the estimation (using temperature for example may be a strong predictor along with the base load). Such variations were not explored since due to privacy concerns, this dataset is very limited in demographic information and does not include location information.
+In this project, the baseline estimation is calculated as a function of the control (clustered) mean, but note that other models such as a regression-based model may increase the accuracy of the estimation (using temperature along with the base load may be a good predictor). Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
 
 4) _Quantify the response_
 
-At this point we can do a visual inspection to see whether a cluster is responsive or not.
+At this point, through visual inspection its possible to see whether a cluster is responsive or not.
 Nevertheless, a metric to evaluate how significant the response comes very handy for objectivity.
 
 Assuming that the underlying distributions are Gaussian, a hypothesis test is implemented with a typical type I error of 5% .
@@ -75,8 +74,10 @@ There is no significant decrease in consumption as a response to increased prici
 
 > _H1_: (Time-of-use tariffs cluster)mean < Baseload
 
-Given the density of each cluster varies, it is also helpful to compute the statistical power of the test.
-Where proved significance, we can also quantify the relative change for a particular cluster and therefore tackle the goal 1) identifying responsive users and quantifying their ability to contribute in the demand reduction.
+Given the density within clusters vary, it is also helpful to compute the statistical power of the test.
+And finally, where a subgroup proves to be significant, its possible to quantify the relative magnitude of change, therefore tackling the initial goal:
+
+> __Identifying responsive users and quantifying their ability to contribute in the demand reduction__.
 
 Considerations:
 Since there are no negative values for consumption, it is expected for the underlying distributions to be left-skewed.
