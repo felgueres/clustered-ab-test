@@ -10,8 +10,7 @@ The motivation of this project and primary application is to identify exploitabl
 
 ### Overview
 
-#### Past 200 years -> demand driven generation
-#### Future -> generation driven demand
+#### In a nutshell: demand driven generation -> generation driven demand
 
 The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency, are driving unprecedented changes in electricity markets.
 
