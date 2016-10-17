@@ -8,7 +8,10 @@ The main goal is to show a baseline framework to identify suitable users for dem
 
 The motivation of this project and primary application is to identify exploitable strategies for shifting electricity demand from peak hours.
 
-### Overview 
+### Overview
+
+#### Past 200 years -> demand driven generation
+#### Future -> generation driven demand
 
 The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency, are driving unprecedented changes in electricity markets.
 
@@ -29,40 +32,72 @@ Note the CER project aimed to address the household response towards time-of-use
    * 6 csv files: 3+ GB total
 
 *  Household allocation
-   * csv file relating households to Time-of-use Tariff and Demand Response stimulus
+   * csv file relating households to Time-of-use Tariff and stimulus
 
 ### General approach and challenges
 
 This project can be conceived as a 4-step process.
 
-1) Feature construction
+1) _Feature construction_
 
 Essentially, the consumption of each user at any given time period can be thought of as an independent feature.
 On a 15-min granularity and for roughly 4,000 households, it implies a very high dimensionality matrix.
 Hence, the first challenge is reducing dimensionality while capturing the households' usage profile in 1) magnitude, 2) variability.
 
-2) k-Means clustering
+2) _k-Means clustering_
 
-The second step is to implement a clustering technique that focuses on capturing subgroups of users that share the same behavior both in magnitude and variability. Note that feature construction of step one is crucial for this step's success.
+The second step is to implement a clustering technique that focuses on capturing subgroups of users load profile.
+
+The value of this step lies in reducing dimensionality and defining a working hypothesis of the consumption of the users:
+
+Working hypothesis:
+
+- __Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group__.
+
+Note that feature construction of step one is crucial for this step's success.
 This dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering of all users (benchmark period).
 
-3) Defining a baseline for comparison
+3) _Defining a baseline for comparison_
 
 In order to assess how responsive a subgroup is to a given stimulus, a baseline is required.
 The challenge lies in that the actual baseline load of a household is unknown and one can only estimate it.
-As common sense and data suggests, a combination of historical consumption and weather data would be very strong proxies to estimate this value through a regression-based model.  
 
-However, due privacy concerns, this dataset doesn't include any location information to model with.
-Thus, the features used to cluster (and therefore also features constructed at 1) are constrained to be a representation of the overall magnitude and variability of a household. This means, no centering nor normalization of the data can be performed, decreasing the capability of capturing relative as opposed to absolute changes.
+In this project, the baseline estimation is calculated as a function of the control (clustered) mean, but note that other models such as a regression-based model may increase the accuracy of the estimation (using temperature for example may be a strong predictor along with the base load). Such variations were not explored since due to privacy concerns, this dataset is very limited in demographic information and does not include location information.
 
-4) Quantify the response
+4) _Quantify the response_
 
+At this point we can do a visual inspection to see whether a cluster is responsive or not.
+Nevertheless, a metric to evaluate how significant the response comes very handy for objectivity.
 
+Assuming that the underlying distributions are Gaussian, a hypothesis test is implemented with a typical type I error of 5% .
+
+_H0_: (Time-of-use tariffs cluster)mean >= Baseload  
+
+There is no significant decrease in consumption as a response to increased pricing.
+
+_H1_: (Time-of-use tariffs cluster)mean < Baseload
+
+Given the density of each cluster varies, it is also helpful to compute the statistical power of the test.
+Where proved significance, we can also quantify the relative change for a particular cluster and therefore tackle the goal 1) identifying responsive users and quantifying their ability to contribute in the demand reduction.
+
+Considerations:
+Since there are no negative values for consumption, it is expected for the underlying distributions to be left-skewed.
+To help overcome this, the distributions were scaled through a log function.
+
+5) _Insights_
+
+Results are presented through a visual representations and table summarizing cluster-based time-of-use responsiveness.
 
 ### Pipeline
 
-Developing a more robust form of this
+Given the 2-week time constraint, this project was conceived as a baseline workflow where additional features were to be implemented as time allowed.
+For this reason, the code architecture is designed in a object-oriented way that makes it easier to build-in future complexity and scalability.
 
+There are two main code files associated:
+
+1) 'code/Pipeline' : Contains the PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see the _init_, _transform_, _fit_ methods for documentation.
+
+2) 'code/Utilities': Contains utility functions for plotting, formatting and computing results.
 
 ### 1. Data preprocessing, cleaning and reformatting
 
