@@ -69,11 +69,11 @@ Nevertheless, a metric to evaluate how significant the response comes very handy
 
 Assuming that the underlying distributions are Gaussian, a hypothesis test is implemented with a typical type I error of 5% .
 
-_H0_: (Time-of-use tariffs cluster)mean >= Baseload  
+ > _H0_: (Time-of-use tariffs cluster)mean >= Baseload  
 
 There is no significant decrease in consumption as a response to increased pricing.
 
-_H1_: (Time-of-use tariffs cluster)mean < Baseload
+> _H1_: (Time-of-use tariffs cluster)mean < Baseload
 
 Given the density of each cluster varies, it is also helpful to compute the statistical power of the test.
 Where proved significance, we can also quantify the relative change for a particular cluster and therefore tackle the goal 1) identifying responsive users and quantifying their ability to contribute in the demand reduction.
