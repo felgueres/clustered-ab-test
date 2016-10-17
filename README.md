@@ -28,7 +28,7 @@ Note the CER project aimed to address the household response towards time-of-use
    * Includes 4,000 anonymized household data
    * household id, timestamp, consumption (kWh)
    * 15-min time-resolution  
-   * 6 csv files: 3+ GB total
+   * 6 csv files: 3+ GB
 
 *  Household allocation
    * csv file relating households to Time-of-use Tariff and stimulus
@@ -46,12 +46,11 @@ Hence, the first challenge is reducing dimensionality while capturing the househ
 2) _k-Means clustering_
 
 The second step is to implement a clustering technique that focuses on capturing subgroups of users load profile.
-
 The value of this step lies in reducing dimensionality and defining a working hypothesis of the consumption of the users:
 
 Working hypothesis:
 
-- __Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group__.
+> __Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group__.
 
 Note that feature construction of step one is crucial for this step's success.
 This dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering of all users (benchmark period).
