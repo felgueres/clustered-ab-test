@@ -8,7 +8,7 @@ The main goal is to show a baseline framework to identify suitable users for dem
 
 The motivation of this project and primary application is to identify exploitable strategies for shifting electricity demand from peak hours.
 
-### Overview and application
+### Overview 
 
 The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency, are driving unprecedented changes in electricity markets.
 
