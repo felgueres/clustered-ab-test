@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from scipy.stats import mannwhitneyu
 
-def AB1(k_model, clustersDict):
+def AB(k_model, clustersDict):
 
     '''
     Computes AB testing on clustered samples.
@@ -106,3 +106,7 @@ def stat_power(control, trial, ci=0.975):
     power_higher = 1 - alt_norm.cdf(reject_high)
     power = (power_lower + power_higher) * 100
     return power
+
+
+if __name__ == '__main__':
+    pass

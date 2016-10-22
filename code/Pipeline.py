@@ -2,13 +2,14 @@ import pandas as pd
 import numpy as np
 from import_and_transform import date_decoder, data_merger, user_group
 from plots import plot_behavior_cluster, plot_behavior_user, plot_cluster_hist, plot_trial, plot_stimulus
-from metrics import AB1, AB
+from metrics import AB
 import pickle
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import silhouette_samples, silhouette_score
 import matplotlib.cm as cm
 import seaborn as sns
+from datetime import datetime, timedelta
+
 
 class PipeLine(object):
     '''
