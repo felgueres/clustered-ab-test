@@ -1,6 +1,6 @@
 # kWintessence
 
-This 2-week data science project aims to identify responsive users towards demand-reduction strategies.
+This 2-week data science project aims to identify responsive electrical loads towards demand-reduction strategies.
 
 ### Context
 
