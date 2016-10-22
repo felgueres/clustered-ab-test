@@ -35,16 +35,13 @@ Note the CER project aimed to address the household response towards time-of-use
 
 ![alt tag](https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/01_overview.png)
 
-1) _Feature construction_
+1) _Feature construction and clustering_
 
 Essentially, the consumption of each user at any given time period can be thought of as an independent feature.
-On a 15-min granularity and for roughly 4,000 households, it implies a very high dimensionality matrix.
-Hence, the first challenge is reducing dimensionality while capturing the households' usage profile in 1) magnitude, and, 2) variability.
+On a 15-min granularity, spanning 1.5 years and for roughly 4,000 households, it implies a very high dimensionality matrix.
+Hence, the first challenge is reducing dimensionality and apply an unsupervised machine learning technique to cluster users by similar pattern consumption.
 
-2) _k-Means clustering_
-
-The second step is to implement a clustering technique that focuses on capturing subgroups of users load profile.
-The value of this step lies in reducing dimensionality and defining a working hypothesis of the consumption of the users:
+The value of this step also lies in defining a working hypothesis about the clusters:
 
 > _Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group_.
 
@@ -55,11 +52,9 @@ The following image shows the plots for every cluster where each curve represent
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/02_clusters.png)
 
-3) _Defining a baseline for comparison_
+3) _Comparison baseline_
 
-In order to assess how responsive a subgroup is to a given stimulus, a baseline is required.
 The challenge lies in that the actual baseline load of a household is unknown and one can only estimate it.
-
 In this project, the baseline estimation is calculated as a function of the control (clustered) mean, but note that other models such as a regression-based model may increase the accuracy of the estimation (using temperature along with the base load may be a good predictor). Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
 
 The following figure summarizes the mean daily user profile along with the relative price change between both groups.
@@ -69,7 +64,7 @@ The following figure summarizes the mean daily user profile along with the relat
 4) _Quantify response_
 
 At this point, through visual inspection its possible to see whether a cluster is responsive or not.
-Nevertheless, a metric to evaluate how significant the response comes in handy for objectivity.
+Nevertheless, an objective metric to evaluate how significant the response comes in handy.
 
 Assuming that the underlying distributions are Gaussian, a hypothesis is formulated and tested with a typical type I error of 5% .
 
@@ -80,11 +75,6 @@ Assuming that the underlying distributions are Gaussian, a hypothesis is formula
 
 Given the density within clusters vary, it is also helpful to compute the statistical power of the test.
 
-Consideration:
-Note the sample size is reduced as the number of cluster increases.
-For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error and increasing the statistical power.
-
-
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/04_test_control.png)
 
 5) _Insights_
@@ -93,6 +83,10 @@ Results are presented through visualization and the aforementioned metrics of hy
 In the following figure, clusters with a dashed square are presumably responsive.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
+
+Consideration:
+Note the sample size is reduced as the number of cluster increases.
+For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error (increasing the statistical power).
 
 6) _Final thoughts_
 
