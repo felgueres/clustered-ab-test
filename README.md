@@ -32,9 +32,10 @@ Note the CER project aimed to address the household response towards time-of-use
 
 1) _Feature construction and clustering_
 
-Essentially, the consumption of each user at any given time period can be thought of as an independent feature.
-On a 15-min granularity, spanning 1.5 years and for roughly 4,000 households, implies a high dimensionality matrix.
-Hence, the first challenge is reducing dimensionality and apply an unsupervised machine learning technique to cluster users by similar pattern consumption.
+The consumption of each user at any given time period can be thought of as an independent feature.
+A 15-min granularity, spanning 1.5 years and roughly 4,000 households implicates a high dimensionality matrix.
+
+The first challenge is reducing dimensionality and apply an unsupervised machine learning technique to cluster users by similar pattern consumption.
 
 The value of this step also lies in defining a working hypothesis about the clusters:
 
@@ -52,8 +53,8 @@ Note the number of clusters was determined heuristically; stakeholder's input wo
 
 3) _Comparative baseline_
 
-The baseline estimate is calculated as a function of the control (clustered) mean, but note that other models (ex. regression-based using temperature) may increase the accuracy of the estimation.
-Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
+The comparative is calculated as a function of the control (clustered) mean, but note that other models (ex. regression-based load-temperature) may increase the accuracy of estimation.
+Such variations were not explored since this dataset is limited in demographic information due to privacy concerns.
 
 The following figure summarizes the mean daily user profile along with the relative price change between both groups.
 
@@ -80,7 +81,7 @@ In the following figure, clusters with a dashed square are presumably responsive
 
 Consideration:
 Note the sample size is reduced as the number of cluster increases.
-For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error (increasing the statistical power).
+For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error (increasing statistical power).
 
 6) _Final thoughts_
 
@@ -88,8 +89,7 @@ For clusters 3 and 5, although the hypothesis test proves significant, ideally w
 
 ### Code related
 
-Given the 2-week time constraint, this project was conceived as a baseline workflow where additional features were to be implemented as time allowed.
-For this reason, the code architecture was designed in a object-oriented way that would make it easier to implement future complexity and scalability.
+Given the 2-week time constraint, this project was conceived as a baseline workflow where additional features were to be implemented as time allowed. The code is object-oriented to make it easier to implement future complexity and scalability.
 
 There are four main code-related files:
 
