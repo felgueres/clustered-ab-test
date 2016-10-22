@@ -37,8 +37,6 @@ Note the CER project aimed to address the household response towards time-of-use
 
 ### General approach and challenges
 
-This project can be conceived as a 4-step process.
-
 1) _Feature construction_
 
 Essentially, the consumption of each user at any given time period can be thought of as an independent feature.
@@ -53,7 +51,9 @@ The value of this step lies in reducing dimensionality and defining a working hy
 > _Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group_.
 
 Helpful enough, this dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering of all users (benchmark period).
-On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within days non-event DR days. In fact, clustering within on-off periods of DR events may be more accurate since seasonal usage patterns could be captured through the clustering.
+On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days. In fact, clustering within on-off periods of DR events may be more accurate since seasonal usage patterns could be captured through the clustering.
+
+The following image shows the plots for every cluster where each curve represents a user. It also shows how the users variability and magnitude of consumption is being captured through the clustering technique.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/02_clusters.png)
 
@@ -93,6 +93,10 @@ Results are presented through visualization and hypothesis testing.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
 
+6) _Takeaways_
+
+![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
+
 ### Code related
 
 Given the 2-week time constraint, this project was conceived as a baseline workflow where additional features were to be implemented as time allowed.
@@ -108,8 +112,4 @@ There are four main code files associated:
 
 4) 'code/metrics': Quantify response functions.
 
-### Presentation
-
-This project was presented at the Galvanize Immersive Data Science Showcase event in San Francisco on October 20th, 2016.
-
-See file __'figures_and_presentation/00_presentation.pdf'__ for the complete presentation.
+#### _This project was presented at the Galvanize Immersive Data Science Showcase event in San Francisco on October 20th, 2016._
