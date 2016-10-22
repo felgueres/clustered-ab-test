@@ -10,8 +10,6 @@ The motivation of this project and primary application is to identify exploitabl
 
 ### Overview
 
-#### In a nutshell: demand driven generation -> generation driven demand
-
 The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency, are driving unprecedented changes in electricity markets.
 
 These forms of interaction underpin an increased volatility for both, demand and supply, making it increasingly complex for stakeholders to plan, manage and optimize capacity utilization of the existing electrical infrastructure.
@@ -53,7 +51,7 @@ The value of this step lies in reducing dimensionality and defining a working hy
 Helpful enough, this dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering of all users (benchmark period).
 On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days. In fact, clustering within on-off periods of DR events may be more accurate since seasonal usage patterns could be captured through the clustering.
 
-The following image shows the plots for every cluster where each curve represents a user. It also shows how the users variability and magnitude of consumption is being captured through the clustering technique.
+The following image shows the plots for every cluster where each curve represents a user. It also shows how the users' variability and magnitude of consumption is being captured in each cluster.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/02_clusters.png)
 
@@ -69,9 +67,9 @@ In this project, the baseline estimation is calculated as a function of the cont
 4) _Quantify response_
 
 At this point, through visual inspection its possible to see whether a cluster is responsive or not.
-Nevertheless, a metric to evaluate how significant the response comes very handy for objectivity.
+Nevertheless, a metric to evaluate how significant the response comes in handy for objectivity.
 
-Assuming that the underlying distributions are Gaussian, a hypothesis test is implemented with a typical type I error of 5% .
+Assuming that the underlying distributions are Gaussian, a hypothesis is formulated and tested with a typical type I error of 5% .
 
  > _H0_: (Time-of-use tariffs cluster)mean >= Baseload  
  > or: Increasing price does not induce a significant decrease in consumption.   
@@ -81,15 +79,16 @@ Assuming that the underlying distributions are Gaussian, a hypothesis test is im
 Given the density within clusters vary, it is also helpful to compute the statistical power of the test.
 Finally, where a subgroup proves to be significant, its possible to quantify the relative magnitude of response.
 
-Considerations:
-Since there are no negative values for consumption, it is expected for the underlying distributions to be left-skewed.
-To help overcome this, the distributions were scaled through a log function.
-
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/04_test_control.png)
 
 5) _Insights_
 
-Results are presented through visualization and hypothesis testing.
+Results are presented through visualization and the aforementioned metrics of hypothesis testing.
+In the following figure, clusters marked with a dashed square a responsive.
+
+Consideration:
+Note the sample size is reduced as the number of cluster increases.
+For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error and increasing the statistical power.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
 
