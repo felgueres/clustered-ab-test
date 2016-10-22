@@ -20,7 +20,9 @@ At a household-level, smart-metering technology is an enabler of a bi-directiona
 
 Smart meters are expected to be fully deployed by 2020 in developed countries. Nevertheless, there are very few public datasets that carry quality and sufficient historical data of smart-metering. The dataset used in this project derives from the CER Smart Metering Project in Ireland (http://www.ucd.ie/issda/data/commissionforenergyregulationcer/), where 4,000 users were monitored and tested with time-of-use tariffs.
 
-Note the CER project aimed to address the household response towards time-of-use tariffs but to the point of this project, did not attempt to quantify and identify the subgroups of users that drive it.
+Note the CER project aimed to address the household response towards time-of-use tariffs but to the point of this project, did not attempt to identify the subgroups of users that drive it.
+
+![alt tag](https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/01_overview.png)
 
 ### Data Source
 
@@ -53,6 +55,7 @@ The value of this step lies in reducing dimensionality and defining a working hy
 Helpful enough, this dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering of all users (benchmark period).
 On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within days non-event DR days. In fact, clustering within on-off periods of DR events may be more accurate since seasonal usage patterns could be captured through the clustering.
 
+![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/02_clusters.png)
 
 3) _Defining a baseline for comparison_
 
@@ -60,6 +63,8 @@ In order to assess how responsive a subgroup is to a given stimulus, a baseline 
 The challenge lies in that the actual baseline load of a household is unknown and one can only estimate it.
 
 In this project, the baseline estimation is calculated as a function of the control (clustered) mean, but note that other models such as a regression-based model may increase the accuracy of the estimation (using temperature along with the base load may be a good predictor). Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
+
+![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/03_experiment.png)
 
 4) _Quantify the response_
 
@@ -69,43 +74,42 @@ Nevertheless, a metric to evaluate how significant the response comes very handy
 Assuming that the underlying distributions are Gaussian, a hypothesis test is implemented with a typical type I error of 5% .
 
  > _H0_: (Time-of-use tariffs cluster)mean >= Baseload  
-
-There is no significant decrease in consumption as a response to increased pricing.
+ > or: Increasing price does not induce a significant decrease in consumption.   
 
 > _H1_: (Time-of-use tariffs cluster)mean < Baseload
 
 Given the density within clusters vary, it is also helpful to compute the statistical power of the test.
-And finally, where a subgroup proves to be significant, its possible to quantify the relative magnitude of change, therefore tackling the initial goal:
-
-> __Identifying responsive users and quantifying their ability to contribute in the demand reduction__.
+Finally, where a subgroup proves to be significant, its possible to quantify the relative magnitude of response.
 
 Considerations:
 Since there are no negative values for consumption, it is expected for the underlying distributions to be left-skewed.
 To help overcome this, the distributions were scaled through a log function.
 
+![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/04_test_control.png)
+
 5) _Insights_
 
-Results are presented through a visual representations and table summarizing cluster-based time-of-use responsiveness.
+Results are presented through visualization and hypothesis testing.
 
-### Pipeline
+![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
+
+### Code related
 
 Given the 2-week time constraint, this project was conceived as a baseline workflow where additional features were to be implemented as time allowed.
 For this reason, the code architecture is designed in a object-oriented way that makes it easier to build-in future complexity and scalability.
 
-There are two main code files associated:
+There are four main code files associated:
 
-1) 'code/Pipeline' : Contains the PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see the _init_, _transform_, _fit_ methods for documentation.
+1) 'code/Pipeline' : PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see the _init_, _transform_, _fit_ methods for documentation.
 
-2) 'code/Utilities': Contains utility functions for plotting, formatting and computing results.
+2) 'code/import_and_transform' : functions to import data and transform to usable format.
 
-### 1. Data preprocessing, cleaning and reformatting
+3) 'code/plots': Plotting functions.
 
-The data was easy to load and read through pandas.
+4) 'code/metrics': Quantify response functions.
 
-Preprocessing included:
+### Presentation
 
-* Decoding text into workable datetime objects.
-* Sorting timestamps, filling missing/erroneous values and pivoting to a user (rows) x features (power consumption) matrix.
-* Merging raw data files, merging the _household allocation_ data to main dataframe by user id, dropping invalid users and creating a pickle of the outcome to avoid re-running computations.
+This project was presented at the Galvanize Immersive Data Science Showcase event in San Francisco on October 20th, 2016.
 
-#### 2. To be continued...
+See file __'figures_and_presentation/00_presentation.pdf'__ for the complete presentation.
