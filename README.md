@@ -1,8 +1,6 @@
 # kWintessence
 
-This 2-week data science project aims to study household-level responsiveness to time-of-use electricity tariffs.
-
-The goal is to show a baseline framework to identify responsive users towards demand reduction strategies (in this case driven by consumption elasticity).
+This 2-week data science project aims to show a framework to identify responsive users towards demand reduction strategies (in this case driven by consumption elasticity).
 
 ### Context
 
