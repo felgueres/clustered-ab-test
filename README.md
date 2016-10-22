@@ -50,7 +50,7 @@ Note the number of clusters was determined heuristically; stakeholder's input wo
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/02_clusters.png)
 
-3) _Comparison baseline_
+3) _Comparative baseline_
 
 The baseline estimate is calculated as a function of the control (clustered) mean, but note that other models (ex. regression-based using temperature) may increase the accuracy of the estimation.
 Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
