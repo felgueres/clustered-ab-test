@@ -14,7 +14,8 @@ At a household-level, smart-metering technology is a means to collect high resol
 
 The dataset used derives from the CER Smart Metering Project in Ireland, where users were monitored and tested with time-of-use tariffs.
 
-Note the CER project aimed to address the household response towards time-of-use tariffs and to the point of this project, did not attempt to identify the subgroups of users driving it.
+The CER's goal was to address the overall household response to time-of-use tariffs.
+This project attempts to identify the subgroups of users that drive such response.
 
  * Irish Social Science Data Archive: Smart Meter
    * Includes 4,000 anonymized household data
@@ -35,7 +36,7 @@ Note the CER project aimed to address the household response towards time-of-use
 The consumption of each user at any given time period can be thought of as an independent feature.
 A 15-min granularity, spanning 1.5 years and roughly 4,000 households implicates a high dimensionality matrix.
 
-The first challenge is reducing dimensionality and apply an unsupervised machine learning technique to cluster users by similar pattern consumption.
+The first challenge is to reduce dimensionality and apply an unsupervised machine learning technique to cluster users by similar pattern consumption.
 
 The value of this step also lies in defining a working hypothesis about the clusters:
 
