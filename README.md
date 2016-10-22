@@ -62,6 +62,8 @@ The challenge lies in that the actual baseline load of a household is unknown an
 
 In this project, the baseline estimation is calculated as a function of the control (clustered) mean, but note that other models such as a regression-based model may increase the accuracy of the estimation (using temperature along with the base load may be a good predictor). Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
 
+The following figure summarizes the mean daily user profile along with the relative price change between both groups.
+
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/03_experiment.png)
 
 4) _Quantify response_
