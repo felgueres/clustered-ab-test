@@ -2,21 +2,22 @@
 
 This 2-week data science project aims to study household-level responsiveness to time-of-use electricity tariffs.
 
-### Goal and application
+### Application
 
-The main goal is to show a baseline framework to identify suitable users for demand reduction (driven by their price elasticity).
-
-The motivation of this project and primary application is to identify exploitable strategies for shifting electricity demand from peak hours.
+Show a baseline framework to identify responsive users towards demand reduction strategies (in this case driven by their consumption elasticity).
 
 ### Context
 
-The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency, are driving unprecedented changes in electricity markets.
+The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency are driving unprecedented changes in electricity markets.
 
-These forms of interaction underpin an increased volatility for both, demand and supply, making it increasingly complex for stakeholders to plan, manage and optimize capacity utilization of the existing electrical infrastructure.
+These forms of interaction increase generation-consumption volatility, making it increasingly complex for stakeholders to optimize capacity utilization of electrical infrastructure.
 
-At a household-level, smart-metering technology is an enabler of a bi-directional communication between suppliers and consumers as well as a means to collect high temporal resolution data. This in turn enables the analysis of intra-day user behavior which, when combined to different stimulus, has the potential to minimize the demand volatility (at the low voltage level) and help balance the  power grid.
+At a household-level, smart-metering technology is a means to collect high resolution temporal data.
+The analysis of intra-day user behavior opens the possibility to tackle demand volatility and help balance the grid.
 
-Smart meters are expected to be fully deployed by 2020 in developed countries. Nevertheless, there are very few public datasets that carry quality and sufficient historical data of smart-metering. The dataset used in this project derives from the CER Smart Metering Project in Ireland (http://www.ucd.ie/issda/data/commissionforenergyregulationcer/), where 4,000 users were monitored and tested with time-of-use tariffs.
+Smart meters are expected to be fully deployed by 2020 in developed countries.
+Nevertheless, there are very few public datasets with quality historical data of smart-metering.
+The dataset used in this project derives from the CER Smart Metering Project in Ireland (http://www.ucd.ie/issda/data/commissionforenergyregulationcer/), where users were monitored and tested with time-of-use tariffs.
 
 Note the CER project aimed to address the household response towards time-of-use tariffs but to the point of this project, did not attempt to identify the subgroups of users that drive it.
 
@@ -45,17 +46,19 @@ The value of this step also lies in defining a working hypothesis about the clus
 
 > _Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group_.
 
-Helpful enough, this dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering of all users (benchmark period).
+The dataset used includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering.
 On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days. In fact, clustering within on-off periods of DR events may be more accurate since seasonal usage patterns could be captured through the clustering.
 
-The following image shows the plots for every cluster where each curve represents a user. It also shows how the users' variability and magnitude of consumption is being captured in each cluster.
+The following image shows plots for every cluster where each curve represents a user.
+It also shows how the users' variability and magnitude of consumption are being captured.
+
+Note the number of clusters was determined heuristically; stakeholder's input would be ideal.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/02_clusters.png)
 
 3) _Comparison baseline_
 
-The challenge lies in that the actual baseline load of a household is unknown and one can only estimate it.
-In this project, the baseline estimation is calculated as a function of the control (clustered) mean, but note that other models such as a regression-based model may increase the accuracy of the estimation (using temperature along with the base load may be a good predictor). Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
+The baseline estimate is calculated as a function of the control (clustered) mean, but note that other models (ie. regression-based) may increase the accuracy of the estimation (using temperature along with the base load may be a good predictor). Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
 
 The following figure summarizes the mean daily user profile along with the relative price change between both groups.
 
@@ -95,13 +98,13 @@ For clusters 3 and 5, although the hypothesis test proves significant, ideally w
 ### Code related
 
 Given the 2-week time constraint, this project was conceived as a baseline workflow where additional features were to be implemented as time allowed.
-For this reason, the code architecture was designed in a object-oriented way that would make it easier to build-in future complexity and scalability.
+For this reason, the code architecture was designed in a object-oriented way that would make it easier to implement future complexity and scalability.
 
 There are four main code-related files:
 
-1) 'src/Pipeline' : PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see the _init_, _transform_, _fit_ methods for documentation.
+1) 'src/Pipeline' : PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see _init_, _transform_ and _fit_ methods for documentation.
 
-2) 'src/import_and_transform' : functions to import data and transform to usable format.
+2) 'src/import_and_transform': Functions to import data and transform to usable format.
 
 3) 'src/plots': Plotting functions.
 
