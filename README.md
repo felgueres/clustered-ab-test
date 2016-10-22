@@ -93,7 +93,7 @@ Results are presented through visualization and hypothesis testing.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
 
-6) _Takeaways_
+6) _Final thoughts_
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/06_futurework.png)
 
