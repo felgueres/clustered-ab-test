@@ -2,7 +2,7 @@
 
 This 2-week data science project aims to study household-level responsiveness to time-of-use electricity tariffs.
 
-The goal is to show a baseline framework to identify responsive users towards demand reduction strategies (in this case driven by their consumption elasticity).
+The goal is to show a baseline framework to identify responsive users towards demand reduction strategies (in this case driven by consumption elasticity).
 
 ### Context
 
@@ -13,8 +13,6 @@ These forms of interaction increase generation-consumption volatility, making it
 At a household-level, smart-metering technology is a means to collect high resolution temporal data.
 The analysis of intra-day user behavior opens the possibility to tackle demand volatility and help balance the grid.
 
-Smart meters are expected to be fully deployed by 2020 in developed countries.
-Nevertheless, there are very few public datasets with quality historical data of smart-metering.
 The dataset used in this project derives from the CER Smart Metering Project in Ireland (http://www.ucd.ie/issda/data/commissionforenergyregulationcer/), where users were monitored and tested with time-of-use tariffs.
 
 Note the CER project aimed to address the household response towards time-of-use tariffs but to the point of this project, did not attempt to identify the subgroups of users that drive it.
