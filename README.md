@@ -34,16 +34,15 @@ This project attempts to identify the subgroups of users that drive such respons
 1) _Feature construction and clustering_
 
 The consumption of each user at any given time period can be thought of as an independent feature.
-A 15-min granularity, spanning 1.5 years and roughly 4,000 households implicates a high dimensionality matrix.
+At 15-min granularity, spanning 1.5 years and roughly 4,000 households implicates a high dimensionality matrix.
 
 The first challenge is to reduce dimensionality and apply an unsupervised machine learning technique to cluster users by similar pattern consumption.
 
-The value of this step also lies in defining a working hypothesis about the clusters:
+The value of this step also lies in defining a working assumption about the clusters:
 
 > _Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group_.
 
-The dataset used includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering.
-On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days.
+The dataset used includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering. Furthermore, thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days.
 
 The following image shows plots for every cluster where each curve represents a user.
 It also shows how the clusters capture users' variability and magnitude of consumption.
