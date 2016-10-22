@@ -22,8 +22,6 @@ Smart meters are expected to be fully deployed by 2020 in developed countries. N
 
 Note the CER project aimed to address the household response towards time-of-use tariffs but to the point of this project, did not attempt to identify the subgroups of users that drive it.
 
-![alt tag](https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/01_overview.png)
-
 ### Data Source
 
  * Irish Social Science Data Archive: Smart Meter
@@ -36,6 +34,8 @@ Note the CER project aimed to address the household response towards time-of-use
    * csv file relating households to Time-of-use Tariff and stimulus
 
 ### General approach and challenges
+
+![alt tag](https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/01_overview.png)
 
 1) _Feature construction_
 
