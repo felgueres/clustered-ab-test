@@ -66,7 +66,7 @@ In this project, the baseline estimation is calculated as a function of the cont
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/03_experiment.png)
 
-4) _Quantify the response_
+4) _Quantify response_
 
 At this point, through visual inspection its possible to see whether a cluster is responsive or not.
 Nevertheless, a metric to evaluate how significant the response comes very handy for objectivity.
