@@ -79,18 +79,18 @@ Assuming that the underlying distributions are Gaussian, a hypothesis is formula
 > _H1_: (Time-of-use tariffs cluster)mean < Baseload
 
 Given the density within clusters vary, it is also helpful to compute the statistical power of the test.
-Finally, where a subgroup proves to be significant, its possible to quantify the relative magnitude of response.
+
+Consideration:
+Note the sample size is reduced as the number of cluster increases.
+For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error and increasing the statistical power.
+
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/04_test_control.png)
 
 5) _Insights_
 
 Results are presented through visualization and the aforementioned metrics of hypothesis testing.
-In the following figure, clusters marked with a dashed square a responsive.
-
-Consideration:
-Note the sample size is reduced as the number of cluster increases.
-For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error and increasing the statistical power.
+In the following figure, clusters with a dashed square are presumably responsive.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
 
