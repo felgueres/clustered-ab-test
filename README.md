@@ -1,6 +1,6 @@
 # kWintessence
 
-This 2-week data science project aims to identify responsive users towards demand reduction strategies.
+This 2-week data science project aims to identify responsive users towards demand-reduction strategies.
 
 ### Context
 
@@ -8,10 +8,13 @@ The integration of renewable energy generation, foreseeable significant changes 
 
 These forms of interaction increase generation-consumption volatility, making it increasingly complex for stakeholders to optimize capacity utilization of electrical infrastructure.
 
-At a household-level, smart-metering technology is a means to collect high resolution temporal data.
-The analysis of intra-day user behavior opens the possibility to tackle demand volatility and help balance the grid.
+At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling demand management strategies to help balance the power grid.
 
 ### Data Source
+
+The dataset used derives from the CER Smart Metering Project in Ireland, where users were monitored and tested with time-of-use tariffs.
+
+Note the CER project aimed to address the household response towards time-of-use tariffs but to the point of this project, did not attempt to identify the subgroups of users driving it.
 
  * Irish Social Science Data Archive: Smart Meter
    * Includes 4,000 anonymized household data
@@ -22,10 +25,6 @@ The analysis of intra-day user behavior opens the possibility to tackle demand v
 
 *  Household allocation
    * csv file relating households to Time-of-use Tariff and stimulus
-
-The dataset used in this project derives from the CER Smart Metering Project in Ireland, where users were monitored and tested with time-of-use tariffs.
-
-Note the CER project aimed to address the household response towards time-of-use tariffs but to the point of this project, did not attempt to identify the subgroups of users driving it.
 
 ### General approach and challenges
 
