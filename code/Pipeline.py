@@ -1,16 +1,14 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from Utilities import date_decoder, data_merger, user_group, plot_behavior_cluster, plot_behavior_user, plot_cluster_hist, plot_trial, AB
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-from datetime import datetime, timedelta
+from import_and_transform import date_decoder, data_merger, user_group
+from plots import plot_behavior_cluster, plot_behavior_user, plot_cluster_hist, plot_trial, plot_stimulus
+from metrics import AB1, AB
 import pickle
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_samples, silhouette_score
 import matplotlib.cm as cm
+import seaborn as sns
 
 class PipeLine(object):
     '''
@@ -249,9 +247,13 @@ class PipeLine(object):
 
         if featurization == 'load_profile':
             # Compute hourly means for entire period per user.
+            self.X_features = self.df_bm.ix[self.df_bm.index.weekday <5]
             self.X_features = self.df_bm.groupby(self.df_bm.index.hour).mean().T
+
             # Same for the trial period
+            self.df_trial = self.df_trial.ix[self.df_trial.index.weekday <5]
             self.df_trial = self.df_trial.groupby(self.df_trial.index.hour).mean().T
+
 
         elif featurization == 'M-shape':
             pass
@@ -317,9 +319,11 @@ class PipeLine(object):
         elif plot_type == 'trial2':
             plot_trial(self.clustersDict, self.kmeans.n_clusters, alltariffs_ = False)
 
+        elif plot_type == 'trial3':
+            plot_stimulus(self.clustersDict, self.kmeans.n_clusters, alltariffs_ = True)
+
     def test(self, type_ = 'AB'):
         '''
-
         Now that we have discarded through visual examintion whether a cluster is responsive or not.
         Run a clinical trial to the results. Under the assumption the underlying distribution of this samples are normally distributed.
 
@@ -340,6 +344,9 @@ class PipeLine(object):
 
         if type_ == 'AB':
             AB(k_model = self.kmeans, clustersDict = self.clustersDict)
+
+        if type_ == 'AB1':
+            AB1(k_model = self.kmeans, clustersDict = self.clustersDict)
 
 
 if __name__ == '__main__':
