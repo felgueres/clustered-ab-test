@@ -99,9 +99,9 @@ For clusters 3 and 5, although the hypothesis test proves significant, ideally w
 ### Code related
 
 Given the 2-week time constraint, this project was conceived as a baseline workflow where additional features were to be implemented as time allowed.
-For this reason, the code architecture is designed in a object-oriented way that makes it easier to build-in future complexity and scalability.
+For this reason, the code architecture was designed in a object-oriented way that would make it easier to build-in future complexity and scalability.
 
-There are four main code files associated:
+There are four main code-related files:
 
 1) 'src/Pipeline' : PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see the _init_, _transform_, _fit_ methods for documentation.
 
