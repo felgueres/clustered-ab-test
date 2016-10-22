@@ -4,11 +4,11 @@ This 2-week data science project aims to study household-level responsiveness to
 
 ### Goal and application
 
-The main goal is to show a baseline framework to identify suitable users for demand reduction (driven by their price elasticity) and estimate their capacity to do so.
+The main goal is to show a baseline framework to identify suitable users for demand reduction (driven by their price elasticity).
 
 The motivation of this project and primary application is to identify exploitable strategies for shifting electricity demand from peak hours.
 
-### Overview
+### Context
 
 The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency, are driving unprecedented changes in electricity markets.
 
