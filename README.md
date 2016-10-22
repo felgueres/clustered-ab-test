@@ -95,7 +95,7 @@ Results are presented through visualization and hypothesis testing.
 
 6) _Takeaways_
 
-![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
+![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/06_futurework.png)
 
 ### Code related
 
@@ -104,12 +104,12 @@ For this reason, the code architecture is designed in a object-oriented way that
 
 There are four main code files associated:
 
-1) 'code/Pipeline' : PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see the _init_, _transform_, _fit_ methods for documentation.
+1) 'src/Pipeline' : PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see the _init_, _transform_, _fit_ methods for documentation.
 
-2) 'code/import_and_transform' : functions to import data and transform to usable format.
+2) 'src/import_and_transform' : functions to import data and transform to usable format.
 
-3) 'code/plots': Plotting functions.
+3) 'src/plots': Plotting functions.
 
-4) 'code/metrics': Quantify response functions.
+4) 'src/metrics': Quantify response functions.
 
 #### _This project was presented at the Galvanize Immersive Data Science Showcase event in San Francisco on October 20th, 2016._
