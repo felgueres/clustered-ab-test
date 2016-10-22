@@ -6,7 +6,7 @@ This 2-week data science project aims to identify responsive electrical loads to
 
 The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency are driving unprecedented changes in electricity markets.
 
-These forms of interaction increase generation-consumption volatility, making it increasingly complex for stakeholders to optimize capacity utilization of electrical infrastructure.
+These forms of interaction increase generation-consumption volatility, making it increasingly complex for stakeholders to optimize capacity utilization of the electrical infrastructure.
 
 At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling demand management strategies to help balance the power grid.
 
@@ -53,7 +53,7 @@ Note the number of clusters was determined heuristically; stakeholder's input wo
 
 3) _Comparative baseline_
 
-The comparative is calculated as a function of the control (clustered) mean, but note that other models (ex. regression-based load-temperature) may increase the accuracy of estimation.
+The comparative baseline is calculated as a function of the control (clustered) mean, but note that other models (ex. regression-based load-temperature model) may increase the accuracy of estimation.
 Such variations were not explored since this dataset is limited in demographic information due to privacy concerns.
 
 The following figure summarizes the mean daily user profile along with the relative price change between both groups.
@@ -62,7 +62,7 @@ The following figure summarizes the mean daily user profile along with the relat
 
 4) _Quantify response_
 
-At this point, through visual inspection its possible to see whether a cluster is responsive or not. Furthermore, assuming the underlying distributions are Gaussian, a hypothesis is formulated and tested with a typical type I error of 5% .
+At this point, through visual inspection its possible to see whether a cluster is responsive or not. Furthermore, assuming the underlying distributions are Gaussian, a hypothesis can be formulated and tested with a typical type I error of 5% .
 
  > _H0_: (Time-of-use tariffs cluster)mean >= Baseload  
  > or: Increasing price does not induce a significant decrease in consumption.   
