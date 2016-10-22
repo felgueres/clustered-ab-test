@@ -2,9 +2,7 @@
 
 This 2-week data science project aims to study household-level responsiveness to time-of-use electricity tariffs.
 
-### Application
-
-Show a baseline framework to identify responsive users towards demand reduction strategies (in this case driven by their consumption elasticity).
+The goal is to show a baseline framework to identify responsive users towards demand reduction strategies (in this case driven by their consumption elasticity).
 
 ### Context
 
@@ -39,7 +37,7 @@ Note the CER project aimed to address the household response towards time-of-use
 1) _Feature construction and clustering_
 
 Essentially, the consumption of each user at any given time period can be thought of as an independent feature.
-On a 15-min granularity, spanning 1.5 years and for roughly 4,000 households, it implies a very high dimensionality matrix.
+On a 15-min granularity, spanning 1.5 years and for roughly 4,000 households, implies a high dimensionality matrix.
 Hence, the first challenge is reducing dimensionality and apply an unsupervised machine learning technique to cluster users by similar pattern consumption.
 
 The value of this step also lies in defining a working hypothesis about the clusters:
@@ -47,10 +45,10 @@ The value of this step also lies in defining a working hypothesis about the clus
 > _Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group_.
 
 The dataset used includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering.
-On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days. In fact, clustering within on-off periods of DR events may be more accurate since seasonal usage patterns could be captured through the clustering.
+On this line and thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days.
 
 The following image shows plots for every cluster where each curve represents a user.
-It also shows how the users' variability and magnitude of consumption are being captured.
+It also shows how the clusters capture users' variability and magnitude of consumption.
 
 Note the number of clusters was determined heuristically; stakeholder's input would be ideal.
 
@@ -58,7 +56,8 @@ Note the number of clusters was determined heuristically; stakeholder's input wo
 
 3) _Comparison baseline_
 
-The baseline estimate is calculated as a function of the control (clustered) mean, but note that other models (ie. regression-based) may increase the accuracy of the estimation (using temperature along with the base load may be a good predictor). Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
+The baseline estimate is calculated as a function of the control (clustered) mean, but note that other models (ex. regression-based using temperature) may increase the accuracy of the estimation.
+Such variations were not explored since this dataset is very limited in demographic information due to privacy concerns.
 
 The following figure summarizes the mean daily user profile along with the relative price change between both groups.
 
@@ -66,10 +65,7 @@ The following figure summarizes the mean daily user profile along with the relat
 
 4) _Quantify response_
 
-At this point, through visual inspection its possible to see whether a cluster is responsive or not.
-Nevertheless, an objective metric to evaluate how significant the response comes in handy.
-
-Assuming that the underlying distributions are Gaussian, a hypothesis is formulated and tested with a typical type I error of 5% .
+At this point, through visual inspection its possible to see whether a cluster is responsive or not. Furthermore, assuming the underlying distributions are Gaussian, a hypothesis is formulated and tested with a typical type I error of 5% .
 
  > _H0_: (Time-of-use tariffs cluster)mean >= Baseload  
  > or: Increasing price does not induce a significant decrease in consumption.   
@@ -82,7 +78,6 @@ Given the density within clusters vary, it is also helpful to compute the statis
 
 5) _Insights_
 
-Results are presented through visualization and the aforementioned metrics of hypothesis testing.
 In the following figure, clusters with a dashed square are presumably responsive.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
