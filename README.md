@@ -4,11 +4,11 @@ This 2-week data science project aims to identify responsive electrical loads to
 
 ### Context
 
-The integration of renewable energy generation, foreseeable significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency are driving unprecedented changes in electricity markets.
+The integration of renewable energy generation, significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency are driving unprecedented changes in electricity markets.
 
-These forms of interaction increase generation-consumption volatility, making it increasingly complex for stakeholders to optimize capacity utilization of the electrical infrastructure.
+These forms of interaction increase generation-consumption volatility, making it increasingly complex for service providers to optimize capacity utilization of the electrical infrastructure.
 
-At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling demand management strategies to help balance the power grid.
+At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling demand management strategies to help in such imbalance.
 
 ### Data Source
 
