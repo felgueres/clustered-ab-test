@@ -47,7 +47,7 @@ The dataset includes a 6-month period where all users where exposed to same cond
 The following image shows plots for every cluster where each curve represents a user.
 It also shows how the clusters capture users' variability and magnitude of consumption.
 
-Note the number of clusters was determined heuristically; stakeholder's input would be ideal.
+Note the number of clusters was determined heuristically; service provider's input would be ideal here.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/02_clusters.png)
 
