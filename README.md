@@ -12,10 +12,10 @@ At a household-level, smart-metering technology is a means to collect high resol
 
 ### Data Source
 
-The dataset used derives from the CER Smart Metering Project in Ireland, where users were monitored and tested with time-of-use tariffs.
+The dataset used derives from the CER Smart Metering experiment in Ireland, where users were allocated either to a flat (control) or variable (treatment) electricity tariff.
 
-The CER's goal was to address the overall household response to time-of-use tariffs.
-This project attempts to identify the subgroups of users that drive such response.
+The CER's goal was to address the overall household response to variable tariffs.
+Where as this project attempts to identify the subgroups of users that drive such response.
 
  * Irish Social Science Data Archive: Smart Meter
    * Includes 4,000 anonymized household data
