@@ -15,8 +15,7 @@ This project explores an unsupervised learning technique along with a clinical-t
 
 The dataset derives from the CER Smart Metering experiment in Ireland, where users were allocated either to a flat (control) or variable (treatment) electricity tariff.
 
-The CER's goal was to address the overall household response to variable tariffs.
-This project attempts to identify the subgroups of users that drive such response.
+The CER's goal was to address the overall household response to variable tariffs while this project attempts to identify the subgroups of users that drive such response.
 
  * Irish Social Science Data Archive: Smart Meter
    * Includes 4,000 anonymized household data
