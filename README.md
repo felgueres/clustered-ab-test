@@ -4,7 +4,7 @@ This 2-week data science project aims to identify responsive electrical loads to
 
 ### Overview
 
-The integration of renewable energy generation and significant changes in demand (ie. electric cars, storage, CHP) are challenging the grid's generation-demand balance.
+The integration of renewable energy generation and significant changes in demand (ie. electric cars, storage, CHP) challenge the grid's overall balance.
 
 At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling service providers to evaluate demand management strategies.
 
