@@ -40,9 +40,9 @@ The first challenge is to reduce dimensionality and to cluster users by similar 
 
 The value of this step also lies in defining a working assumption about the clusters:
 
-> _Households within clusters under same circumstances behave similarly, thus, the baseline comparison for variable tariffs can be estimated by the actual loads of the corresponding control group_.
+> _The baseline comparison for variable tariffs can be estimated by the actual loads of the corresponding control group (clustered)_.
 
-The dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering. Furthermore, thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days.
+The dataset includes a 6-month period where all users where exposed to same conditions and therefore an unbiased timespan to perform the clustering. Furthermore, thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days.
 
 The following image shows plots for every cluster where each curve represents a user.
 It also shows how the clusters capture users' variability and magnitude of consumption.
@@ -87,18 +87,18 @@ For clusters 3 and 5, although the hypothesis test proves significant, ideally w
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/06_futurework.png)
 
-### Code related
+### Code
 
-Given the 2-week time constraint, this project was conceived as a baseline workflow where additional features were to be implemented as time allowed. The code is object-oriented to make it easier to implement future complexity and scalability.
+The code is object-oriented to make it easier for future complexity and scalability; see _src/Pipeline_ for documentation.
 
-There are four main code-related files:
+### Libraries:
 
-1) 'src/Pipeline' : PipeLine class from which all the project runs through. Note that similar attributes and methods to the sklearn library were implemented; see _init_, _transform_ and _fit_ methods for documentation.
-
-2) 'src/import_and_transform': Functions to import data and transform to usable format.
-
-3) 'src/plots': Plotting functions.
-
-4) 'src/metrics': Quantify response functions.
+* sklearn
+* pickle
+* numpy
+* pandas
+* datetime
+* matplotlib
+* seaborn
 
 #### _This project was presented at the Galvanize Immersive Data Science Showcase event in San Francisco on October 20th, 2016._
