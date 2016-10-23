@@ -6,16 +6,16 @@ This 2-week data science project aims to identify responsive electrical loads to
 
 The integration of renewable energy generation, significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency are driving unprecedented changes in electricity markets.
 
-These forms of interaction increase generation-consumption volatility, making it increasingly complex for service providers to optimize capacity utilization of the electrical infrastructure.
+These forms of interaction drive generation-consumption volatility, making increasingly complex for service providers to optimize capacity utilization of the grid.
 
 At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling demand management strategies to help in such imbalance.
 
 ### Data Source
 
-The dataset used derives from the CER Smart Metering experiment in Ireland, where users were allocated either to a flat (control) or variable (treatment) electricity tariff.
+The dataset derives from the CER Smart Metering experiment in Ireland, where users were allocated either to a flat (control) or variable (treatment) electricity tariff.
 
 The CER's goal was to address the overall household response to variable tariffs.
-Where as this project attempts to identify the subgroups of users that drive such response.
+This project attempts to identify the subgroups of users that drive such response.
 
  * Irish Social Science Data Archive: Smart Meter
    * Includes 4,000 anonymized household data
@@ -40,7 +40,7 @@ The first challenge is to reduce dimensionality and apply an unsupervised machin
 
 The value of this step also lies in defining a working assumption about the clusters:
 
-> _Households within clusters behave similarly under same circumstances, therefore, the baseline for time-of-use tariffs can be estimated by the actual loads of the corresponding control group_.
+> _Households within clusters under same circumstances behave similarly, thus, the baseline comparison for variable tariffs can be estimated by the actual loads of the corresponding control group_.
 
 The dataset used includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering. Furthermore, thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days.
 
