@@ -2,13 +2,14 @@
 
 This 2-week data science project aims to identify responsive electrical loads towards demand-reduction strategies.
 
-### Context
+### Overview
 
-The integration of renewable energy generation, significant changes in demand (ie. electric cars, storage, CHP) and the motivation to improve power system's efficiency are driving unprecedented changes in electricity markets.
+The integration of renewable energy generation and significant changes in demand (ie. electric cars, storage, CHP) are challenging the grid's generation-demand balance.
 
-These forms of interaction drive generation-consumption volatility, making increasingly complex for service providers to optimize capacity utilization of the grid.
+At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling service providers to evaluate demand management strategies.
 
-At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling demand management strategies to help in such imbalance.
+A commonly discussed strategy is controlling demand through the users consumption elasticity.
+This project explores an unsupervised learning technique along with a clinical-test approach to objectively identify responsive users.
 
 ### Data Source
 
