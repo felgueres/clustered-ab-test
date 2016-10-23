@@ -62,7 +62,8 @@ The following figure summarizes the mean daily user profile along with the relat
 
 4) _Quantify response_
 
-At this point, through visual inspection its possible to see whether a cluster is responsive or not. Furthermore, assuming the underlying distributions are Gaussian, a hypothesis can be formulated and tested with a typical type I error of 5% .
+At this point, through visual inspection its possible to see whether a cluster is responsive or not.
+For objectiveness, assuming the underlying distributions are Gaussian, a hypothesis can be formulated and tested with a typical type I error of 5% .
 
  > _H0_: (Time-of-use tariffs cluster)mean >= Baseload  
  > or: Increasing price does not induce a significant decrease in consumption.   
@@ -75,11 +76,10 @@ Given the density within clusters vary, it is also helpful to compute the statis
 
 5) _Insights_
 
-In the following figure, clusters with a dashed square are presumably responsive.
+In the following figure, clusters with a dashed-square are identified as responsive.
 
 ![alt tag] (https://github.com/felgueres/kWintessence/blob/master/figures_and_presentation/05_evaluation.png)
 
-Consideration:
 Note the sample size is reduced as the number of cluster increases.
 For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error (increasing statistical power).
 
