@@ -8,7 +8,7 @@ The integration of renewable energy generation and significant changes in demand
 
 At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling service providers to evaluate demand management strategies.
 
-A commonly discussed strategy is controlling demand through the users consumption elasticity.
+A commonly discussed strategy is controlling demand through the users' consumption elasticity.
 This project explores an unsupervised learning technique along with a clinical-test approach to objectively identify responsive users.
 
 ### Data Source
@@ -37,13 +37,13 @@ This project attempts to identify the subgroups of users that drive such respons
 The consumption of each user at any given time period can be thought of as an independent feature.
 At 15-min granularity, spanning 1.5 years and roughly 4,000 households implicates a high dimensionality matrix.
 
-The first challenge is to reduce dimensionality and apply an unsupervised machine learning technique to cluster users by similar pattern consumption.
+The first challenge is to reduce dimensionality and to cluster users by similar profile consumption.
 
 The value of this step also lies in defining a working assumption about the clusters:
 
 > _Households within clusters under same circumstances behave similarly, thus, the baseline comparison for variable tariffs can be estimated by the actual loads of the corresponding control group_.
 
-The dataset used includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering. Furthermore, thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days.
+The dataset includes a 6-month period where all users where exposed to same conditions and therefore is an unbiased timespan to perform the clustering. Furthermore, thinking about the actual application of demand response (DR) applications, the benchmark doesn't need to be an extended period of time, it could be done within non-event DR days.
 
 The following image shows plots for every cluster where each curve represents a user.
 It also shows how the clusters capture users' variability and magnitude of consumption.
@@ -54,7 +54,7 @@ Note the number of clusters was determined heuristically; stakeholder's input wo
 
 3) _Comparative baseline_
 
-The comparative baseline is calculated as a function of the control (clustered) mean, but note that other models (ex. regression-based load-temperature model) may increase the accuracy of estimation.
+The comparative baseline is calculated as a function of the control (clustered) mean, but note that other models (ex. regression-based load-temperature model) may increase the estimation accuracy.
 Such variations were not explored since this dataset is limited in demographic information due to privacy concerns.
 
 The following figure summarizes the mean daily user profile along with the relative price change between both groups.
