@@ -1,6 +1,6 @@
 # kWintessence
 
-This 2-week data science project aims to identify responsive electrical loads towards demand management strategies.
+This 2-week data science project aims to identify price-responsive electrical loads.
 
 ### Overview
 
