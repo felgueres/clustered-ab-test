@@ -8,7 +8,7 @@ The integration of renewable energy generation and significant changes in demand
 
 At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling service providers to evaluate demand management strategies.
 
-A commonly discussed strategy is controlling demand through the users' consumption elasticity.
+A commonly discussed strategy is controlling demand through users consumption elasticity.
 This project explores an unsupervised learning technique along with a clinical-test approach to objectively identify responsive users.
 
 ### Data Source
