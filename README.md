@@ -1,6 +1,6 @@
 # kWintessence
 
-This 2-week data science project aims to identify price-responsive electrical loads.
+This 2-week data science aims to identify responsive subgroups towards electrical demand management strategies.
 
 ### Overview
 
@@ -8,8 +8,8 @@ The integration of renewable energy generation and significant changes in demand
 
 At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling service providers to evaluate demand management strategies.
 
-A commonly discussed strategy is controlling demand through users consumption elasticity.
-This project explores an unsupervised ML technique along with a clinical-test approach to objectively identify responsive users.
+A commonly discussed strategy is controlling demand through consumption elasticity.
+This project explores an unsupervised ML technique along with a clinical-test approach to objectively identify responsive subgroups of users.
 
 ### Data Source
 
@@ -37,6 +37,7 @@ The consumption of each user at any given time period can be thought of as an in
 At 15-min granularity, spanning 1.5 years and roughly 4,000 households implicates a high dimensionality matrix.
 
 The first challenge is to reduce dimensionality and to cluster users by similar profile consumption.
+This was performed via temporal aggregation and feature construction.
 
 The value of this step also lies in defining a working assumption about the clusters:
 
@@ -89,7 +90,7 @@ For clusters 3 and 5, although the hypothesis test proves significant, ideally w
 
 ### Code
 
-The code is object-oriented to make it easier for future complexity and scalability; see _src/Pipeline_ for documentation.
+OOP for future complexity and scalability; see _src/Pipeline_ for documentation.
 
 ### Libraries:
 
