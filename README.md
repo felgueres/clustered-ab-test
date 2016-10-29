@@ -1,8 +1,9 @@
 # kWintessence
 
-In 2011 Ireland's energy commission released an experiment about users' electricity behavior against increased pricing during peak hours. The results showed users decreased their consumption by 8% relative to the control group.
+In 2011 Ireland's energy commission released an experiment about the viability of exploiting consumption elasticity in view of controlling electrical demand. The results showed that price surging during peak hours reduced demand by 8% relative to the control group.
+
 This project aims to further understand the drivers of such response.
-Via K-means clustering on temporal data and statistical inferences it was possible to detect the subgroups of users that lower their demand, proving potentially useful for service providers to formulate strategies for demand management.
+Via K-means clustering on temporal data and statistical inferences it was possible to detect the responsive subgroups of users, proving potentially useful for service providers to formulate strategies for demand management.
 
 ### Context
 
