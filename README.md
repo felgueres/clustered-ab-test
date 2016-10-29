@@ -1,17 +1,16 @@
 # kWintessence
 
-In 2011 Ireland's energy commission released an experiment about users' electricity behavior against increased pricing during peak hours. The results showed users decreased their consumption around 8%.
+In 2011 Ireland's energy commission released an experiment about users' electricity behavior against increased pricing during peak hours. The results showed users decreased their consumption 8% relative to the control group.
 This project aims to further understand the drivers of such response.
 Via K-means clustering on temporal data and statistical inferences it was possible to detect the subgroups of users that lower their demand, proving potentially useful for service providers to formulate strategies for demand management.
 
-### Overview
+### Context
 
 The integration of renewable energy generation and significant changes in demand (ie. electric cars, storage, CHP) challenge the grid's overall balance.
 
 At a household-level, smart-metering technology is a means to collect high resolution temporal data; enabling service providers to evaluate demand management strategies.
 
 A commonly discussed strategy is controlling demand through consumption elasticity.
-This project explores an unsupervised ML technique along with a clinical-test approach to objectively identify responsive subgroups of users.
 
 ### Data Source
 
