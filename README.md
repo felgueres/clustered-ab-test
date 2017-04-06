@@ -52,7 +52,7 @@ It also shows how the clusters capture users' variability and magnitude of consu
 
 Note the number of clusters was determined heuristically; service provider's input would be ideal here.
 
-![alt tag] (https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/02_clusters.png)
+![alt tag](https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/02_clusters.png)
 
 3) _Comparative baseline_
 
@@ -61,7 +61,7 @@ Such variations were not explored since this dataset is limited in demographic i
 
 The following figure summarizes the mean daily user profile along with the relative price change between both groups.
 
-![alt tag] (https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/03_experiment.png)
+![alt tag](https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/03_experiment.png)
 
 4) _Quantify response_
 
@@ -75,20 +75,20 @@ For objectiveness, assuming the underlying distributions are Gaussian, a hypothe
 
 Given the density within clusters vary, it is also helpful to compute the statistical power of the test.
 
-![alt tag] (https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/04_test_control.png)
+![alt tag](https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/04_test_control.png)
 
 5) _Insights_
 
 In the following figure, clusters with a dashed-square are identified as responsive.
 
-![alt tag] (https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/05_evaluation.png)
+![alt tag](https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/05_evaluation.png)
 
 Note the sample size is reduced as the number of cluster increases.
 For clusters 3 and 5, although the hypothesis test proves significant, ideally we would want to increase the sample size to reduce the probability of a Type II error (increasing statistical power).
 
 6) _Final thoughts_
 
-![alt tag] (https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/06_futurework.png)
+![alt tag](https://github.com/felgueres/Smart-Meter-Experiment-ML-Revisited/blob/master/figures_and_presentation/06_futurework.png)
 
 ### Code
 
