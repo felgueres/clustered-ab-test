@@ -1,4 +1,4 @@
-# Irish Smart Meter Trial Experiment - Revisited with ML
+# Ireland Smart Meter Trial Experiment - Revisited with ML
 
 In 2011 Ireland's energy commission released an experiment about the viability of exploiting consumption elasticity in view of controlling electrical demand. The results showed that price surging during peak hours reduced demand by 8% relative to the control group.
 
